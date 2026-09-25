@@ -66,4 +66,6 @@ int be_getkey(int wait); // -1 when !wait and nothing queued
 void be_sound(const char *event); // web: play a sound event
 void be_end();                   // web: the game ended
 int tile_for(int y, int x, int ch, int *under); // tiles.cpp: -1 = text
+const char *wc_css(int tval);                  // tiles.cpp: an item's colour
+void be_invfg(int y, const char *css);         // inventory row colour
 void wc_inv(WINDOW *);                          // tiles.cpp: Inventory pane

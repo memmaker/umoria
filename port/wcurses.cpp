@@ -235,13 +235,24 @@ static void status_refresh() {
 
 static char last0[128]; // message line as last seen
 
+// a repeat of the newest history line becomes "line (xN)" in its row
 static void hist(const char *s) {
+    static char prev[128];
+    static int reps;
+    char buf[160];
     WINDOW *p = pn[P_MSG];
-    int n = (int) strlen(s);
-    for (int y = 0; y < HIST - 1; y++) {
-        for (int x = 0; x < p->maxx; x++) set(p, y, x, at(p, y + 1, x));
+    if (*prev != 0 && strcmp(s, prev) == 0) {
+        snprintf(buf, sizeof buf, "%s (x%d)", s, ++reps);
+    } else {
+        reps = 1;
+        snprintf(prev, sizeof prev, "%s", s);
+        snprintf(buf, sizeof buf, "%s", s);
+        for (int y = 0; y < HIST - 1; y++) {
+            for (int x = 0; x < p->maxx; x++) set(p, y, x, at(p, y + 1, x));
+        }
     }
-    for (int x = 0; x < p->maxx; x++) set(p, HIST - 1, x, x < n ? (unsigned char) s[x] : ' ');
+    int n = (int) strlen(buf);
+    for (int x = 0; x < p->maxx; x++) set(p, HIST - 1, x, x < n ? (unsigned char) buf[x] : ' ');
 }
 
 static void msg_refresh() {

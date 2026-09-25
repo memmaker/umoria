@@ -292,3 +292,4 @@ int be_getkey(int wait)
 }
 
 
+void be_invfg(int, const char *) {}

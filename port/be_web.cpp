@@ -20,6 +20,11 @@ void be_put(int p, int y, int x, chtype ch, int tile, int under) { js_put(p, y, 
 void be_cursor(int p, int y, int x) { js_cursor(p, y, x); }
 void be_popup(int rows, int cols) { js_popup(rows, cols); }
 void be_sound(const char *event) { js_sound(event); }
+EM_JS(void, js_invfg, (int y, const char *c), { Module.um.invfg(y, UTF8ToString(c)); });
+void be_invfg(int y, const char *css) {
+    static const char *last[64];
+    if (y < 64 && last[y] != css) { last[y] = css; js_invfg(y, css); }
+}
 // Visible window (RVIP 5b): lit monsters and the objects on visible tiles
 EM_JS(void, js_vis, (const char *s), { if (Module.um.vis) Module.um.vis(UTF8ToString(s)); });
 static void sendVisible() {
@@ -41,7 +46,7 @@ static void sendVisible() {
             if (item.category_id > TV_MAX_PICK_UP) continue;
             obj_desc_t d = {'\0'};
             itemDescription(d, item, true);
-            n += snprintf(buf + n, sizeof buf - n, "I%c%s\n", caveGetTileSymbol(Coord_t{y, x}), d);
+            n += snprintf(buf + n, sizeof buf - n, "I%c%s\t%s\n", caveGetTileSymbol(Coord_t{y, x}), d, wc_css(item.category_id));
         }
     buf[n] = 0;
     js_vis(buf);

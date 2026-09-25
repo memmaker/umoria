@@ -78,11 +78,34 @@ int tile_for(int y, int x, int ch, int *under) {
     return -1;
 }
 
+// Angband's colour for an item's tval (RVIP W0: colours come from the game)
+const char *wc_css(int tval) {
+    switch (tval) {
+    case TV_SLING_AMMO: case TV_BOLT: case TV_ARROW: case TV_SPIKE: return "#909098";
+    case TV_LIGHT: return "#ffff90";
+    case TV_BOW: case TV_HAFTED: case TV_POLEARM: case TV_SWORD: return "#b0b0b8";
+    case TV_DIGGING: return "#c0c0c0";
+    case TV_BOOTS: case TV_GLOVES: case TV_CLOAK: case TV_HELM: case TV_SHIELD:
+    case TV_HARD_ARMOR: case TV_SOFT_ARMOR: return "#a07040";
+    case TV_AMULET: return "#ff9000";
+    case TV_RING: return "#ff4040";
+    case TV_STAFF: return "#d09050";
+    case TV_WAND: return "#40d040";
+    case TV_SCROLL1: case TV_SCROLL2: return "#ffffff";
+    case TV_POTION1: case TV_POTION2: case TV_FLASK: return "#40a0ff";
+    case TV_FOOD: return "#d09050";
+    case TV_MAGIC_BOOK: case TV_PRAYER_BOOK: return "#60e0e0";
+    case TV_GOLD: return "#ffe040";
+    }
+    return "";
+}
+
 // Inventory pane: equipment then pack, one line each.
 void wc_inv(WINDOW *w) {
     obj_desc_t d;
     int y = 0;
-    auto line = [&](const char *s) {
+    auto line = [&](const char *s, const char *css = "") {
+        be_invfg(y, css);
         wmove(w, y++, 0);
         waddstr(w, s);
         wclrtoeol(w);
@@ -93,7 +116,7 @@ void wc_inv(WINDOW *w) {
         itemDescription(d, py.inventory[i], true);
         snprintf(buf, sizeof buf, "%c) %s", 'a' + i, d);
         buf[w->maxx - 1] = 0;
-        line(buf);
+        line(buf, wc_css(py.inventory[i].category_id));
     }
     line("");
     line("Equipment");
@@ -103,7 +126,7 @@ void wc_inv(WINDOW *w) {
         itemDescription(d, py.inventory[i], true);
         snprintf(buf, sizeof buf, "%c) %s", 'a' + i - PlayerEquipment::Wield, d);
         buf[w->maxx - 1] = 0;
-        line(buf);
+        line(buf, wc_css(py.inventory[i].category_id));
     }
     while (y < w->maxy) line("");
 }
