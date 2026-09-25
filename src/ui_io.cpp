@@ -141,6 +141,26 @@ void addChar(char ch, Coord_t coord) {
     }
 }
 
+// Sound: the web frontend plays a sample for the event, the desktop is silent.
+void soundEvent(const char *event) {
+#ifdef __EMSCRIPTEN__
+    be_sound(event);
+#else
+    (void) event;
+#endif
+}
+
+// Screen row drawn highlighted (item list cursor), -1 = none
+int ui_highlight_row = -1;
+
+// Keys fed to getKeyInput() before the keyboard: inventory item actions
+// run as the command keys the player would type.
+static std::string key_queue;
+
+void keyQueuePush(std::string const &keys) {
+    key_queue += keys;
+}
+
 // Dump IO to buffer -RAK-
 void putString(const char *out_str, Coord_t coord) {
     // truncate the string, to make sure that it won't go past right edge of screen.
@@ -151,6 +171,14 @@ void putString(const char *out_str, Coord_t coord) {
     vtype_t str = {'\0'};
     (void) strncpy(str, out_str, (size_t) (79 - coord.x));
     str[79 - coord.x] = '\0';
+
+    if (coord.y == ui_highlight_row) {
+        (void) move(coord.y, coord.x);
+        for (const char *c = str; *c != 0; c++) {
+            (void) addch((unsigned char) *c | A_STANDOUT);
+        }
+        return;
+    }
 
     if (mvaddstr(coord.y, coord.x, str) == ERR) {
         abort();
@@ -195,6 +223,9 @@ void panelPutTile(char ch, Coord_t coord) {
     // Real coords convert to screen positions
     coord.y -= dg.panel.row_prt;
     coord.x -= dg.panel.col_prt;
+#ifdef UMORIA_X11
+    wc_dungeon();
+#endif
 
     if (mvaddch(coord.y, coord.x, ch) == ERR) {
         abort();
@@ -243,6 +274,9 @@ void messageLineClear() {
 // Outputs message to top line of screen
 // These messages are kept for later reference.
 void printMessage(const char *msg) {
+    if (msg != nullptr) {
+        py_auto = 0; // any new message stops auto-explore
+    }
     int new_len = 0;
     int old_len = 0;
     bool combine_messages = false;
@@ -331,6 +365,12 @@ void printMessageNoCommandInterrupt(const std::string &msg) {
 char getKeyInput() {
     putQIO();               // Dump IO buffer
     game.command_count = 0; // Just to be safe -CJS-
+
+    if (!key_queue.empty()) {
+        char c = key_queue[0];
+        key_queue.erase(0, 1);
+        return c;
+    }
 
     while (true) {
         int ch = getch();
@@ -521,7 +561,19 @@ void waitForContinueKey(int line_number) {
 // a certain point, sleep for a second. There would need to be a way of resetting
 // the count, with a call made for commands like run or rest.
 bool checkForNonBlockingKeyPress(int microseconds) {
-#ifdef _WIN32
+#ifdef UMORIA_X11
+    (void) wrefresh(stdscr);
+#ifndef __EMSCRIPTEN__ // the web frontend yields in be_getkey()
+    if (!wc_kbhit() && microseconds > 0) {
+        usleep(microseconds);
+    }
+#endif
+    if (!wc_kbhit()) {
+        return false;
+    }
+    (void) getch();
+    return true;
+#elif defined(_WIN32)
     (void) microseconds;
 
     // Ugly non-blocking read...Ugh! -MRC-
@@ -656,7 +708,7 @@ bool tilde(const char *file, char *expanded) {
 // Check user permissions on Unix based systems,
 // or if on Windows just return. -MRC-
 bool checkFilePermissions() {
-#ifndef _WIN32
+#if !defined(_WIN32) && !defined(__EMSCRIPTEN__)
     if (0 != setuid(getuid())) {
         perror("Can't set permissions correctly!  Setuid call failed.\n");
         return false;

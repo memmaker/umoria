@@ -15,12 +15,13 @@ Command Summary (@ is optional count, ~ is direction, ^R redraws, ESC aborts)
   w       Wear/Wield an item        |   X       Exchange weapon
   x ~     Examine surroundings      |   Z       Zap a staff
   z       Zap a wand                |   #       Search mode
-  =       Set options               |   <       Go up an up-staircase
-  /       Identify a character      |   >       Go down a down-staircase
+  =       Set options               |   <       Up stairs (walks there)
+  /       Identify a character      |   >       Down stairs (walks there)
 @ CTRL-P  Previous message review   |   {       Inscribe an object
 @ -  ~    Move without pickup       |   ?       View this page
 @ CTRL  ~ Tunnel in a direction     |   CTRL-X  Save character and quit
 @ SHIFT ~ Run in direction          | @ ~       For movement
+  g       Auto-explore              |   Enter   Command menu
 Directions:     y  k  u
                 h  .  l  [. to rest]
                 b  j  n

@@ -135,6 +135,7 @@ set(
         ${source_dir}/player_eat.cpp
         ${source_dir}/player_magic.cpp
         ${source_dir}/player_move.cpp
+        ${source_dir}/player_explore.cpp
         ${source_dir}/player_pray.cpp
         ${source_dir}/player_quaff.cpp
         ${source_dir}/player_run.cpp
@@ -153,6 +154,7 @@ set(
         ${source_dir}/ui.cpp
         ${source_dir}/ui_inventory.cpp
         ${source_dir}/ui_io.cpp
+        ${source_dir}/ui_menu.cpp
         ${source_dir}/wizard.cpp
 )
 

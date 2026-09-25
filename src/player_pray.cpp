@@ -234,6 +234,7 @@ void pray() {
     // NOTE: at least one function called by `playerRecitePrayer()` sets `player_free_turn = true`,
     // e.g. `spellCreateFood()`, so this check is required. -MRC-
     game.player_free_turn = false;
+    soundEvent("pray_prayer");
 
     if (randomNumber(100) < chance) {
         printMessage("You lost your concentration!");

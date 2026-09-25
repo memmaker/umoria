@@ -128,6 +128,7 @@ void endGame() {
     // If the game has been saved, then save sets turn back to -1,
     // which inhibits the printing of the tomb.
     if (dg.game_turn >= 0) {
+        soundEvent(game.total_winner ? "kill_king" : "death");
         if (game.total_winner) {
             kingly();
         }

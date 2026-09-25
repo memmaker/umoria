@@ -83,6 +83,7 @@ void inventoryDropItem(int item_id, bool drop_all) {
         obj_desc_t prt1 = {'\0'};
         obj_desc_t prt2 = {'\0'};
         itemDescription(prt1, game.treasure.list[treasure_id], true);
+        soundEvent("drop");
         (void) snprintf(prt2, MORIA_OBJ_DESC_SIZE, "Dropped %s", prt1);
         printMessage(prt2);
     }

@@ -104,6 +104,7 @@ bool playerMovePosition(int dir, Coord_t &coord) {
 
 // Teleport the player to a new location -RAK-
 void playerTeleport(int new_distance) {
+    soundEvent("teleport");
     Coord_t location = Coord_t{0, 0};
 
     do {
@@ -147,6 +148,7 @@ bool playerNoLight() {
 // The second arg indicates a light change.
 void playerDisturb(int major_disturbance, int light_disturbance) {
     game.command_count = 0;
+    py_auto = 0;
 
     if ((major_disturbance != 0) && ((py.flags.status & config::player::status::PY_SEARCH) != 0u)) {
         playerSearchOff();
@@ -1156,11 +1158,13 @@ static void playerAttackMonster(Coord_t coord) {
     // Note: blows will always be greater than 0 at the start of the loop -MRC-
     for (int i = blows; i > 0; i--) {
         if (!playerTestBeingHit(base_to_hit, (int) py.misc.level, total_to_hit, (int) creature.ac, PlayerClassLevelAdj::BTH)) {
+            soundEvent("miss");
             (void) snprintf(msg, MORIA_MESSAGE_SIZE, "You miss %s.", name);
             printMessage(msg);
             continue;
         }
 
+        soundEvent("hit");
         (void) snprintf(msg, MORIA_MESSAGE_SIZE, "You hit %s.", name);
         printMessage(msg);
 
@@ -1203,6 +1207,7 @@ static void playerAttackMonster(Coord_t coord) {
 
         // See if we done it in.
         if (monsterTakeHit(creature_id, damage) >= 0) {
+            soundEvent("kill");
             (void) snprintf(msg, MORIA_MESSAGE_SIZE, "You have slain %s.", name);
             printMessage(msg);
             displayCharacterExperience();

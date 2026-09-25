@@ -212,6 +212,7 @@ void staffUse() {
 
     // From here on player uses up a turn
     game.player_free_turn = false;
+    soundEvent("use_staff");
 
     Inventory_t &item = py.inventory[item_id];
 
@@ -393,6 +394,7 @@ void wandAim() {
     }
 
     game.player_free_turn = false;
+    soundEvent("zap_rod");
 
     int direction;
     if (!getDirectionWithMemory(CNIL, direction)) {

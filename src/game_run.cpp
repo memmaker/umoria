@@ -7,6 +7,8 @@
 
 #include "headers.h"
 
+bool at_command_prompt = false;
+
 static void playDungeon();
 
 static void initializeCharacterInventory();
@@ -412,6 +414,7 @@ static int playerFoodConsumption() {
 
             if ((py.flags.status & config::player::status::PY_WEAK) == 0) {
                 py.flags.status |= config::player::status::PY_WEAK;
+                soundEvent("hungry");
                 printMessage("You are getting weak from hunger.");
                 playerDisturb(0, 0);
                 printCharacterHungerStatus();
@@ -424,6 +427,7 @@ static int playerFoodConsumption() {
             }
         } else if ((py.flags.status & config::player::status::PY_HUNGRY) == 0) {
             py.flags.status |= config::player::status::PY_HUNGRY;
+            soundEvent("hungry");
             printMessage("You are getting hungry.");
             playerDisturb(0, 0);
             printCharacterHungerStatus();
@@ -1050,8 +1054,17 @@ static void executeInputCommands(char &command, int &find_count) {
 
         if (game.command_count > 0) {
             game.use_last_direction = true;
+        } else if (py_auto != 0) {
+            last_input_command = py_auto;
         } else {
+            at_command_prompt = true;
             last_input_command = getKeyInput();
+            at_command_prompt = false;
+
+            // Enter: floating menu of all commands
+            if (last_input_command == '\r' || last_input_command == '\n') {
+                last_input_command = commandMenu();
+            }
 
             // Get a count for a command.
             int repeat_count = 0;
@@ -1091,6 +1104,15 @@ static void executeInputCommands(char &command, int &find_count) {
         putQIO();
 
         doCommand(last_input_command);
+
+        // RVIP 3c: back to the i / e list after an item action
+        if (inventory_reopen != 0 && last_input_command != 'i' && last_input_command != 'e') {
+            game.doing_inventory_command = 0;
+            if (!playerMonsterInView()) {
+                keyQueuePush(std::string(1, inventory_reopen));
+            }
+            inventory_reopen = 0;
+        }
 
         // Find is counted differently, as the command changes.
         if (py.running_tracker != 0) {
@@ -1160,6 +1182,7 @@ static char originalCommands(char command) {
                 command = ' ';
             }
             break;
+        case 'g':
         case '/':
         case '<':
         case '>':
@@ -1637,6 +1660,11 @@ static void doWizardCommands(char command) {
 // TODO: E.g. split playerEat() into command/action functions: commandEat(), playerEat().
 // Possibly the "setup" happens in the command, such as the food check/selection of playerEat().
 // The command then calls playerEat() in player_eat.cpp - passing the selected food `item_id`.
+static int tvalAtPlayer() {
+    uint8_t id = dg.floor[py.pos.y][py.pos.x].treasure_id;
+    return id != 0 ? game.treasure.list[id].category_id : TV_NOTHING;
+}
+
 static void doCommand(char command) {
     bool do_pickup = moveWithoutPickup(&command);
 
@@ -1737,11 +1765,22 @@ static void doCommand(char command) {
                 playerRestOn();
             }
             break;
-        case '<': // (<) go down a staircase
-            dungeonGoUpLevel();
+        case '<': // (<) go up a staircase, or walk to the nearest known one
+            if (tvalAtPlayer() == TV_UP_STAIR) {
+                dungeonGoUpLevel();
+            } else {
+                playerAutoStep('<');
+            }
             break;
-        case '>': // (>) go up a staircase
-            dungeonGoDownLevel();
+        case '>': // (>) go down a staircase, or walk to the nearest known one
+            if (tvalAtPlayer() == TV_DOWN_STAIR) {
+                dungeonGoDownLevel();
+            } else {
+                playerAutoStep('>');
+            }
+            break;
+        case 'g': // (g) auto-explore
+            playerAutoStep('g');
             break;
         case '?': // (?) help with commands
             if (config::options::use_roguelike_keys) {
@@ -1832,13 +1871,13 @@ static void doCommand(char command) {
             inventoryExecuteCommand('d');
             break;
         case 'e': // (e)quipment list
-            inventoryExecuteCommand('e');
+            inventoryBrowse(true);
             break;
         case 't': // (t)hrow something  (f)ire something
             playerThrowItem();
             break;
         case 'i': // (i)nventory list
-            inventoryExecuteCommand('i');
+            inventoryBrowse(false);
             break;
         case 'S': // (S)pike a door  (j)am a door
             dungeonJamDoor();
@@ -2152,6 +2191,7 @@ static void dungeonGoUpLevel() {
     if (tile_id != 0 && game.treasure.list[tile_id].category_id == TV_UP_STAIR) {
         dg.current_level--;
 
+        soundEvent("stairs_up");
         printMessage("You enter a maze of up staircases.");
         printMessage("You pass through a one-way door.");
 
@@ -2169,6 +2209,7 @@ static void dungeonGoDownLevel() {
     if (tile_id != 0 && game.treasure.list[tile_id].category_id == TV_DOWN_STAIR) {
         dg.current_level++;
 
+        soundEvent("stairs_down");
         printMessage("You enter a maze of down staircases.");
         printMessage("You pass through a one-way door.");
 
@@ -2288,6 +2329,7 @@ static void playDungeon() {
     // Note: There is a lot of preliminary magic going on here at first
     playerInitializePlayerLight();
     playerUpdateMaxDungeonDepth();
+    playerExploreNewLevel();
     resetDungeonFlags();
 
     // Initialize find counter to `0`
@@ -2353,7 +2395,7 @@ static void playDungeon() {
 
         // Check for interrupts to find or rest.
         int microseconds = (py.running_tracker != 0 ? 0 : 10000);
-        if ((game.command_count > 0 || (py.running_tracker != 0) || py.flags.rest != 0) && checkForNonBlockingKeyPress(microseconds)) {
+        if ((game.command_count > 0 || (py.running_tracker != 0) || py.flags.rest != 0 || py_auto != 0) && checkForNonBlockingKeyPress(microseconds)) {
             playerDisturb(0, 0);
         }
 

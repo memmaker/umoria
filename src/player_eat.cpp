@@ -55,6 +55,7 @@ void playerEat() {
     }
 
     game.player_free_turn = false;
+    soundEvent("eat");
 
     bool identified = false;
 

@@ -437,6 +437,7 @@ static void monsterAttackPlayer(int monster_id) {
             }
 
             int damage = diceRoll(dice);
+            soundEvent("mon_hit");
             notice = executeAttackOnPlayer(creature.level, monster.hp, monster_id, attack_type, damage, death_description, notice);
 
             // Moved here from monsterMove, so that monster only confused if it

@@ -6,6 +6,9 @@
 // Game initialization and maintenance related functions
 
 #include "headers.h"
+#ifdef __EMSCRIPTEN__
+#include "curses.h" // be_end()
+#endif
 #include "version.h"
 
 // holds the previous rnd state
@@ -323,6 +326,9 @@ bool getAllDirections(const char *prompt, int &direction) {
 void exitProgram() {
     flushInputBuffer();
     terminalRestore();
+#ifdef __EMSCRIPTEN__
+    be_end();
+#endif
     exit(0);
 }
 

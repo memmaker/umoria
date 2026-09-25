@@ -228,6 +228,7 @@ void getAndCastMagicSpell() {
     }
 
     game.player_free_turn = false;
+    soundEvent("cast_spell");
 
     Spell_t const &magic_spell = magic_spells[py.misc.class_id - 1][choice];
 

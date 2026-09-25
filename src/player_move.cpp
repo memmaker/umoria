@@ -376,6 +376,7 @@ static void carry(Coord_t coord, bool pickup) {
         py.misc.au += item.cost;
 
         itemDescription(description, item, true);
+        soundEvent("money1");
         (void) snprintf(msg, MORIA_OBJ_DESC_SIZE, "You have found %d gold pieces worth of %s", item.cost, description);
 
         printCharacterGoldValue();

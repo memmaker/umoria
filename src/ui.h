@@ -5,6 +5,17 @@
 
 #pragma once
 
+char commandMenu(); // ui_menu.cpp
+
+// ui_io.cpp
+extern int ui_highlight_row;
+void keyQueuePush(std::string const &keys);
+void soundEvent(const char *event); // Dubtrain/Angband sound event name
+
+// ui_inventory.cpp: i / e screen with a cursor and item menus
+void inventoryBrowse(bool equipment);
+extern char inventory_reopen;
+
 // Panel_t holds data about a screen panel (the dungeon display)
 // Screen panels calculated from the dungeon/screen dimensions
 typedef struct {

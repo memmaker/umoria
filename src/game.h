@@ -72,6 +72,8 @@ typedef struct Game_t {
 } Game_t;
 
 extern Game_t game;
+extern bool at_command_prompt; // waiting for a command (web autosave)
+void autosaveGame();
 
 extern int16_t sorted_objects[MAX_DUNGEON_OBJECTS];
 extern uint16_t normal_table[NORMAL_TABLE_SIZE];

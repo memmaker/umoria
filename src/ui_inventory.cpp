@@ -3,7 +3,38 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+#include <vector>
 #include "headers.h"
+
+// RVIP 3c: a cursor over an item list whose entries are drawn on screen
+// rows 1..n by `redraw`. 8/2 move, 4/6 are '/' (switch list), 0 and . are
+// ESCAPE. Returns -1 when the entry under the cursor is chosen (5, Enter),
+// else the key pressed.
+template <class F> static int itemCursorKey(int &cur, int n, F redraw) {
+    for (;;) {
+        if (cur >= n) cur = n - 1;
+        if (cur < 0) cur = 0;
+        ui_highlight_row = n > 0 ? 1 + cur : -1;
+        redraw();
+        ui_highlight_row = -1;
+        int k = getKeyInput();
+        if (k == '8' && n > 0) {
+            cur = (cur + n - 1) % n;
+        } else if (k == '2' && n > 0) {
+            cur = (cur + 1) % n;
+        } else if (k == '4' || k == '6') {
+            return '/';
+        } else if (k == '0' || k == '.') {
+            return ESCAPE;
+        } else if ((k == '5' || k == '\r' || k == '\n') && n > 0) {
+            redraw(); // without the highlight
+            return -1;
+        } else {
+            redraw();
+            return k;
+        }
+    }
+}
 
 static void inventoryItemWeightText(obj_desc_t text, int itemId) {
     int totalWeight = py.inventory[itemId].weight * py.inventory[itemId].items_count;
@@ -769,6 +800,7 @@ static void executeWearItemCommand(int itemId, const char *which, const char *pr
 
     playerAdjustBonusesForItem(*item, 1);
 
+    soundEvent("wield");
     const char *text = nullptr;
     if (slot == PlayerEquipment::Wield) {
         text = "You are wielding";
@@ -888,10 +920,21 @@ static bool selectItemCommands(char *command, char *which, bool selecting) {
         }
 
         obj_desc_t headingMsg = {'\0'};
+        changeScreenForCommand(*command);
         buildCommandHeading(headingMsg, fromLine, toLine, swap, *command, prompt);
+        putStringClearToEOL(headingMsg, Coord_t{0, 0});
+
+        static int cur = 0;
+        char listCommand = *command;
+        int k = itemCursorKey(cur, toLine - fromLine + 1, [&] {
+            game.screen.current_screen_id = Screen::Wrong;
+            changeScreenForCommand(listCommand);
+        });
+        *which = (char) (k < 0 ? 'a' + fromLine + cur : k);
+        messageLineClear();
 
         // Abort everything.
-        if (!getCommand(headingMsg, *which)) {
+        if (*which == ESCAPE) {
             *which = ESCAPE;
             selecting = false;
             continue;
@@ -1172,7 +1215,9 @@ bool inventoryGetInputForItemId(int &commandKeyId, const char *prompt, int itemI
     commandKeyId = 0;
 
     bool itemFound = false;
-    bool menuActive = false;
+    bool menuActive = true; // RVIP 3c: the list is always shown
+    terminalSaveScreen();
+    static int cur = 0;
 
     do {
         if (menuActive) {
@@ -1211,7 +1256,22 @@ bool inventoryGetInputForItemId(int &commandKeyId, const char *prompt, int itemI
 
         bool done = false;
         while (!done) {
-            char which = getKeyInput();
+            std::vector<int> rows; // item on each list row
+            if (menu == PackMenu::Inventory) {
+                for (int i = itemIdStart; i <= itemIdEnd; i++) {
+                    if (mask == CNIL || mask[i] != 0) rows.push_back(i);
+                }
+            } else {
+                for (int i = 0; i < py.equipment_count; i++) rows.push_back(i);
+            }
+            int k = itemCursorKey(cur, (int) rows.size(), [&] {
+                if (menu == PackMenu::Inventory) {
+                    (void) displayInventoryItems(itemIdStart, itemIdEnd, false, 80, mask);
+                } else {
+                    (void) displayEquipment(false, 80);
+                }
+            });
+            char which = (char) (k < 0 ? 'a' + rows[cur] : k);
 
             switch (which) {
                 case ESCAPE:
@@ -1301,4 +1361,177 @@ bool inventoryGetInputForItemId(int &commandKeyId, const char *prompt, int itemI
     messageLineClear();
 
     return itemFound;
+}
+
+// ---- RVIP 3c: i / e with a cursor and item menus ----
+
+char inventory_reopen = 0; // 'i' / 'e': reopen after the action, 0 = no
+
+struct ItemAction {
+    char key, rl_key; // original / roguelike command key
+    bool item_letter; // the command then asks for the item
+    const char *name;
+};
+
+static const ItemAction ACT_EAT{'E', 'E', true, "Eat"}, ACT_QUAFF{'q', 'q', true, "Quaff"}, ACT_READ{'r', 'r', true, "Read"},
+    ACT_AIM{'a', 'z', true, "Aim"}, ACT_USE{'u', 'Z', true, "Use"}, ACT_CAST{'m', 'm', true, "Cast from"}, ACT_PRAY{'p', 'p', true, "Pray from"},
+    ACT_BROWSE{'b', 'P', true, "Browse"}, ACT_WEAR{'w', 'w', true, "Wear/Wield"}, ACT_TAKEOFF{'t', 'T', true, "Take off"},
+    ACT_FILL{'F', 'F', false, "Refuel lamp"}, ACT_THROW{'f', 't', true, "Throw/Fire"}, ACT_DROP{'d', 'd', true, "Drop"},
+    ACT_INSCRIBE{'{', '{', true, "Inscribe"}, ACT_EXAMINE{0, 0, false, "Examine"};
+
+static int equipmentSlot(int n) {
+    for (int i = PlayerEquipment::Wield; i < PLAYER_INVENTORY_SIZE; i++) {
+        if (py.inventory[i].category_id != TV_NOTHING && n-- == 0) return i;
+    }
+    return -1;
+}
+
+static std::vector<ItemAction> itemActions(bool equipment, int slot) {
+    if (equipment) return {ACT_TAKEOFF, ACT_DROP, ACT_INSCRIBE, ACT_EXAMINE};
+    std::vector<ItemAction> a;
+    int tv = py.inventory[slot].category_id;
+    switch (tv) {
+        case TV_FOOD: a.push_back(ACT_EAT); break;
+        case TV_POTION1: case TV_POTION2: a.push_back(ACT_QUAFF); break;
+        case TV_SCROLL1: case TV_SCROLL2: a.push_back(ACT_READ); break;
+        case TV_WAND: a.push_back(ACT_AIM); break;
+        case TV_STAFF: a.push_back(ACT_USE); break;
+        case TV_MAGIC_BOOK: a.push_back(ACT_CAST); a.push_back(ACT_BROWSE); break;
+        case TV_PRAYER_BOOK: a.push_back(ACT_PRAY); a.push_back(ACT_BROWSE); break;
+        case TV_FLASK: a.push_back(ACT_FILL); break;
+        case TV_SLING_AMMO: case TV_BOLT: case TV_ARROW: case TV_SPIKE: a.push_back(ACT_THROW); break;
+        default:
+            if (tv >= TV_LIGHT && tv <= TV_MAX_WEAR) a.push_back(ACT_WEAR);
+    }
+    if (a.empty() || a[0].key != 'f') a.push_back(ACT_THROW);
+    a.push_back(ACT_DROP);
+    a.push_back(ACT_INSCRIBE);
+    a.push_back(ACT_EXAMINE);
+    return a;
+}
+
+// Runs `act` on item n of the list. Returns true when the screen closes.
+static bool itemDoAction(ItemAction const &act, bool equipment, int n) {
+    int slot = equipment ? equipmentSlot(n) : n;
+    if (act.key == 0) {
+        obj_desc_t d = {'\0'};
+        itemDescription(d, py.inventory[slot], true);
+        printMessage(d);
+        return false;
+    }
+    std::string keys(1, config::options::use_roguelike_keys ? act.rl_key : act.key);
+    if (act.item_letter) {
+        if (equipment && act.key == 'd') keys += '/'; // drop: switch to equipment
+        keys += (char) ('a' + n);
+    }
+    keyQueuePush(keys);
+    inventory_reopen = equipment ? 'e' : 'i';
+    return true;
+}
+
+// Floating menu of the actions for one item; true when one ran.
+static bool itemActionMenu(bool equipment, int n) {
+    int slot = equipment ? equipmentSlot(n) : n;
+    std::vector<ItemAction> acts = itemActions(equipment, slot);
+    obj_desc_t d = {'\0'};
+    itemDescription(d, py.inventory[slot], true);
+    size_t width = strlen(d);
+    for (auto const &a : acts) width = std::max(width, strlen(a.name) + 4);
+
+    // Umoria has one saved screen, owned by inventoryBrowse(): show the menu
+    // alone over the map, the list is redrawn when it comes back.
+    terminalRestoreScreen();
+    terminalSaveScreen();
+    int cur = 0, count = (int) acts.size();
+    for (;;) {
+        // box sized to its content: title + one line per action
+        std::string title(d);
+        title.resize(width, ' ');
+        putString(title.c_str(), Coord_t{1, 13});
+        for (int i = 0; i < count; i++) {
+            char key = config::options::use_roguelike_keys ? acts[i].rl_key : acts[i].key;
+            std::string s = std::string(" ") + (key != 0 ? key : '*') + "  " + acts[i].name;
+            s.resize(width, ' ');
+            ui_highlight_row = i == cur ? 2 + i : -1;
+            putString(s.c_str(), Coord_t{2 + i, 13});
+        }
+        ui_highlight_row = -1;
+        moveCursor(Coord_t{2 + cur, 13});
+        int k = getKeyInput();
+        int pick = -1;
+        if (k == '8') cur = (cur + count - 1) % count;
+        else if (k == '2') cur = (cur + 1) % count;
+        else if (k == '5' || k == '6' || k == '\r' || k == '\n' || k == ' ') pick = cur;
+        else if (k == '*') pick = count - 1;
+        else if (k == ESCAPE || k == '4' || k == '0' || k == '.') break;
+        else {
+            for (int i = 0; i < count; i++) {
+                char key = config::options::use_roguelike_keys ? acts[i].rl_key : acts[i].key;
+                if (key == k) pick = i;
+            }
+        }
+        if (pick >= 0) return itemDoAction(acts[pick], equipment, n);
+    }
+    return false;
+}
+
+void inventoryBrowse(bool equipment) {
+    game.player_free_turn = true;
+    inventory_reopen = 0;
+    static int cur = 0;
+    terminalSaveScreen();
+    for (;;) {
+        if (py.pack.unique_items == 0 && py.equipment_count == 0) {
+            terminalRestoreScreen();
+            printMessage("You are not carrying anything.");
+            return;
+        }
+        if (!equipment && py.pack.unique_items == 0) equipment = true;
+        if (equipment && py.equipment_count == 0) equipment = false;
+        int n = equipment ? py.equipment_count : py.pack.unique_items;
+
+        terminalRestoreScreen();
+        terminalSaveScreen();
+        putStringClearToEOL(equipment ? "Equipment: letter/+ takes off, Shift/- drops, Ctrl/* examines, Enter: menu, 4/6: inventory"
+                                      : "Inventory: letter/+ uses, Shift/- drops, Ctrl/* examines, Enter: menu, 4/6: equipment",
+                            Coord_t{0, 0});
+        int k = itemCursorKey(cur, n, [&] {
+            if (equipment) {
+                (void) displayEquipment(config::options::show_inventory_weights, 80);
+            } else {
+                (void) displayInventoryItems(0, n - 1, config::options::show_inventory_weights, 80, CNIL);
+            }
+        });
+        bool closes = false;
+        int slot = equipment ? equipmentSlot(cur) : cur;
+        if (k == ESCAPE) {
+            break;
+        } else if (k == '/') {
+            equipment = !equipment;
+            continue;
+        } else if (k < 0) {
+            closes = itemActionMenu(equipment, cur);
+        } else if (k == '+') {
+            closes = itemDoAction(itemActions(equipment, slot)[0], equipment, cur);
+        } else if (k == '-') {
+            closes = itemDoAction(ACT_DROP, equipment, cur);
+        } else if (k == '*') {
+            closes = itemDoAction(ACT_EXAMINE, equipment, cur);
+        } else if (k >= 'a' && k < 'a' + n) {
+            cur = k - 'a';
+            slot = equipment ? equipmentSlot(cur) : cur;
+            closes = itemDoAction(itemActions(equipment, slot)[0], equipment, cur);
+        } else if (k >= 'A' && k < 'A' + n) {
+            cur = k - 'A';
+            closes = itemDoAction(ACT_DROP, equipment, cur);
+        } else if (k >= 1 && k <= n) { // Ctrl+letter
+            cur = k - 1;
+            closes = itemDoAction(ACT_EXAMINE, equipment, cur);
+        } else {
+            keyQueuePush(std::string(1, (char) k)); // any other key: a normal command
+            closes = true;
+        }
+        if (closes) break;
+    }
+    terminalRestoreScreen();
 }

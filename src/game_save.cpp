@@ -456,6 +456,27 @@ static bool saveChar(const std::string &filename) {
     return true;
 }
 
+// Save and keep playing (web autosave): via a temp file, and without the
+// "game over" state saveChar() leaves behind.
+void autosaveGame() {
+    if (!game.character_generated || game.character_is_dead) {
+        return;
+    }
+    std::string real = config::files::save_game;
+    std::string tmp = real + ".tmp";
+    int32_t turn = dg.game_turn;
+    bool saved = game.character_saved;
+    (void) unlink(tmp.c_str());
+    config::files::save_game = tmp;
+    bool ok = saveChar(tmp);
+    config::files::save_game = real;
+    dg.game_turn = turn;
+    game.character_saved = saved;
+    if (ok && rename(tmp.c_str(), real.c_str()) == 0) {
+        from_save_file = 1; // Ctrl-X may overwrite it
+    }
+}
+
 // Certain checks are omitted for the wizard. -CJS-
 bool loadGame(bool &generate) {
     Tile_t *tile = nullptr;

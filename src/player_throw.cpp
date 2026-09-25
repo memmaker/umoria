@@ -170,6 +170,7 @@ void playerThrowItem() {
         return;
     }
 
+    soundEvent("shoot");
     itemTypeRemainingCountDescription(item_id);
 
     if (py.flags.confused > 0) {

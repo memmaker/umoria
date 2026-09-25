@@ -107,6 +107,7 @@ static void playerBashAttack(Coord_t coord) {
 
     if (playerTestBeingHit(base_to_hit, (int) py.misc.level, (int) py.stats.used[PlayerAttr::A_DEX], (int) creature.ac, PlayerClassLevelAdj::BTH)) {
         vtype_t msg = {'\0'};
+        soundEvent("hit");
         (void) snprintf(msg, MORIA_MESSAGE_SIZE, "You hit %s.", name);
         printMessage(msg);
 
@@ -121,6 +122,7 @@ static void playerBashAttack(Coord_t coord) {
 
         // See if we done it in.
         if (monsterTakeHit(monster_id, damage) >= 0) {
+            soundEvent("kill");
             (void) snprintf(msg, MORIA_MESSAGE_SIZE, "You have slain %s.", name);
             printMessage(msg);
             displayCharacterExperience();
@@ -150,6 +152,7 @@ static void playerBashAttack(Coord_t coord) {
         }
     } else {
         vtype_t msg = {'\0'};
+        soundEvent("miss");
         (void) snprintf(msg, MORIA_MESSAGE_SIZE, "You miss %s.", name);
         printMessage(msg);
     }

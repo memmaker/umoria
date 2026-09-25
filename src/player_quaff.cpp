@@ -354,6 +354,7 @@ void quaff() {
     }
 
     game.player_free_turn = false;
+    soundEvent("quaff");
 
     bool identified;
     Inventory_t *item = &py.inventory[item_id];

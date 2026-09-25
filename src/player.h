@@ -254,6 +254,12 @@ int itemMagicAbilityDamage(Inventory_t const &item, int total_damage, int monste
 // player_move.cpp
 void playerMove(int direction, bool do_pickup);
 
+// player_explore.cpp
+extern char py_auto;
+void playerAutoStep(char mode);
+void playerExploreNewLevel();
+bool playerMonsterInView();
+
 // player_run.cpp
 void playerFindInitialize(int direction);
 void playerRunAndFind();

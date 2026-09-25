@@ -78,3 +78,10 @@ compile_commands.json
 *.zip
 
 .DS_Store
+
+# RVIP port: build output, binaries, local saves
+web/dist/
+scores.dat
+data/splash.txt
+data/versions.txt
+*.o

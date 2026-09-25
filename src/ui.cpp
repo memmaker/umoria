@@ -729,6 +729,7 @@ static void playerGainLevel() {
     py.misc.level++;
 
     vtype_t msg = {'\0'};
+    soundEvent("level");
     (void) snprintf(msg, MORIA_MESSAGE_SIZE, "Welcome to level %d.", (int) py.misc.level);
     printMessage(msg);
 

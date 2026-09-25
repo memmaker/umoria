@@ -849,6 +849,7 @@ static bool storePurchaseAnItem(int store_id, int &current_top_item_id) {
             itemDescription(description, py.inventory[new_item_id], true);
 
             obj_desc_t msg = {'\0'};
+            soundEvent("store5");
             (void) snprintf(msg, MORIA_OBJ_DESC_SIZE, "You have %s (%c)", description, new_item_id + 'a');
             putStringClearToEOL(msg, Coord_t{0, 0});
 
@@ -1060,6 +1061,7 @@ static bool storeSellAnItem(int store_id, int &current_top_item_id) {
         inventoryDestroyItem(item_id);
 
         itemDescription(description, sold_item, true);
+        soundEvent("store5");
         (void) snprintf(msg, MORIA_OBJ_DESC_SIZE, "You've sold %s", description);
         printMessage(msg);
 
