@@ -16,6 +16,7 @@ static WINDOW *save_screen;
 
 int eof_flag = 0;        // Is used to signal EOF/HANGUP condition
 bool panic_save = false; // True if playing from a panic save
+bool auto_more = true;   // RVIP: -more- does not wait
 
 // Set up the terminal into a suitable state -MRC-
 static void moriaTerminalInitialize() {
@@ -300,12 +301,16 @@ void printMessage(const char *msg) {
                 old_len = 73;
             }
 
-            putString(" -more-", Coord_t{MSG_LINE, old_len});
+            if (auto_more) {
+                refresh(); // RVIP auto_more: no wait; the Messages pane keeps the old message
+            } else {
+                putString(" -more-", Coord_t{MSG_LINE, old_len});
 
-            char key;
-            do {
-                key = getKeyInput();
-            } while ((key != ' ') && (key != ESCAPE) && (key != '\n') && (key != '\r'));
+                char key;
+                do {
+                    key = getKeyInput();
+                } while ((key != ' ') && (key != ESCAPE) && (key != '\n') && (key != '\r'));
+            }
         } else {
             combine_messages = true;
         }
