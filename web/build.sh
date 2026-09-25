@@ -17,7 +17,7 @@ em++ -O2 -std=c++14 -DUMORIA_X11 -Isrc -Iport -w \
 	-sEXPORTED_RUNTIME_METHODS=FS,IDBFS,HEAPU8,addRunDependency,removeRunDependency \
 	-sFORCE_FILESYSTEM -lidbfs.js -sENVIRONMENT=web \
 	--preload-file web/stage/data@/umoria/data
-cp web/index.html web/rvip-wm.js web/umoria.js port/tiles.png "$OUT/"
+cp web/index.html "$HOME/Games/rvip-tools/web/rvip-wm.js" web/umoria.js port/tiles.png "$OUT/"
 # sound effects (message text -> Dubtrain samples) and the town music
 mkdir -p "$OUT/sound" "$OUT/music"
 python3 web/sounds.py "$OUT/sound"
