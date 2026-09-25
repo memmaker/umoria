@@ -266,6 +266,7 @@ static void msg_refresh() {
     // a message went away (not just grew): into the history
     if (*last0 != 0 && strncmp(r, last0, strlen(last0)) != 0) hist(last0);
     strcpy(last0, r);
+    be_prompt(r);  // the prompt line over the map
     for (int x = 0; x < COLS; x++) set(pn[P_MSG], HIST, x, at(stdscr, 0, x));
 }
 

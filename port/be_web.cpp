@@ -10,7 +10,9 @@ EM_JS(void, js_put, (int p, int y, int x, int ch, int t, int u), { Module.um.put
 EM_JS(void, js_cursor, (int p, int y, int x), { Module.um.cursor(p, y, x); });
 EM_JS(void, js_popup, (int r, int c), { Module.um.popup(r, c); });
 EM_JS(void, js_flush, (int lvl, int town, int hy, int hx), { Module.um.flush(lvl, town, hy, hx); });
-EM_JS(int, js_key, (void), { return Module.um.key(); });
+EM_JS(int, js_key, (int at_cmd), { return Module.um.key(at_cmd); });
+EM_JS(void, js_prompt, (const char *s), { Module.um.prompt(UTF8ToString(s)); });
+void be_prompt(const char *s) { js_prompt(s); }
 EM_JS(int, js_want_save, (void), { return Module.um.wantSave(); });
 EM_JS(void, js_sound, (const char *s), { Module.um.sound(UTF8ToString(s)); });
 EM_JS(void, js_end, (int dead), { Module.um.end(dead); });
@@ -65,7 +67,7 @@ int be_getkey(int wait) {
     static double last;
     for (;;) {
         if (at_command_prompt && js_want_save()) autosaveGame();
-        int k = js_key();
+        int k = js_key(at_command_prompt);
         if (k >= 0) return k;
         if (!wait) { // polling (explore, running, resting): let the page paint
             if (emscripten_get_now() - last > 50) {
