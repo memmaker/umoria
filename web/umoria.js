@@ -92,7 +92,7 @@
 		if (k > 32) {
 			c.font = T.font;
 			c.textAlign = 'center'; c.textBaseline = 'middle';
-			c.fillStyle = inv ? BG : FG;
+			c.fillStyle = inv ? BG : (T.rowFg && T.rowFg[y]) || FG;
 			c.fillText(String.fromCharCode(k), px + T.cw / 2, py + T.ch / 2 + 1);
 		}
 	}
@@ -146,6 +146,7 @@
 				Object.keys(d.font).forEach(function (k) {
 					if (s.font && s.font[k] >= FONT_MIN && s.font[k] <= FONT_MAX) d.font[k] = s.font[k];
 				});
+				if (s.wm) d.wm = s.wm;
 				if (s.audio) d.audio = { sound: s.audio.sound === true, music: s.audio.music === true };
 			}
 		} catch (err) { /* nothing saved yet */ }
@@ -160,20 +161,6 @@
 			try { Module.FS.writeFile(LAYOUT_FILE, JSON.stringify(L)); syncFiles(); }
 			catch (err) { console.warn('layout not saved', err); }
 		}, 400);
-	}
-
-	function computeRects() {
-		var A = areaSize(), W = A.w, H = A.h, h = GUT / 2, s = L.split;
-		var yb = clamp(Math.round(H * s.bottom), 120, H - 80);
-		var xt = clamp(Math.round(W * s.stat), 160, W - 60);
-		var xs = clamp(Math.round(W * s.side), 120, W - 120);
-		return {
-			map: [0, 0, xt - h, yb - h],
-			stat: [xt + h, 0, W - xt - h, yb - h],
-			msg: [0, yb + h, xs - h, H - yb - h],
-			inv: [xs + h, yb + h, W - xs - h, H - yb - h],
-			split: { bottom: [0, yb - h, W, GUT], stat: [xt - h, 0, GUT, yb - h], side: [xs - h, yb + h, GUT, H - yb - h] }
-		};
 	}
 
 	function place(el, r) {
@@ -193,7 +180,7 @@
 		} else {
 			var r = rects[WIN[p]];
 			if (!r) return;
-			box = { w: r[2] - BORDER, h: r[3] - BORDER - (p === P_MAP ? 0 : TITLE_H) };
+			box = { w: r[2] - BORDER, h: r[3] - BORDER - ($('game').classList.contains('wm-single') ? 0 : TITLE_H) };
 		}
 		/* the map never shrinks: bigger than its window, it scrolls with the hero */
 		if (p === P_MAP) { T.box = box; scrollMap(true); return; }
@@ -221,34 +208,40 @@
 		T.cv.style.marginTop = -off.y + 'px';
 	}
 
-	function applyDom() {
-		rects = computeRects();
-		WIN.forEach(function (id, p) { place($('t-' + id), rects[id]); fit(p); });
-		SPLITS.forEach(function (k) { place($('split-' + k), rects.split[k]); });
-		fit(P_POP);
+	var wm = null;
+	function zoomList(d) {
+		L.font.vis = clamp((L.font.vis || 13) + d, FONT_MIN, FONT_MAX);
+		document.querySelector('#t-vis .body').style.fontSize = L.font.vis + 'px';
+		saveLayout();
 	}
-
-	function startDrag(k, e) {
-		var el = $('split-' + k);
-		el.setPointerCapture(e.pointerId);
-		el.classList.add('drag');
-		function move(ev) {
-			var g = $('game').getBoundingClientRect(), H = g.height;
-			if (k === 'bottom') L.split.bottom = clamp((ev.clientY - g.top) / H, 0.1, 0.9);
-			if (k === 'side') L.split.side = clamp((ev.clientX - g.left) / g.width, 0.1, 0.9);
-			if (k === 'stat') L.split.stat = clamp((ev.clientX - g.left) / g.width, 0.3, 0.97);
-			L.auto = false;
-			applyDom();
+	/* inventory lines coloured by item kind (Angband colours, rvip-wm.js) */
+	function invColors() {
+		var T = panes[P_INV];
+		if (!T) return;
+		T.rowFg = T.rowFg || [];
+		for (var y = 0; y < T.rows; y++) {
+			var s = '';
+			for (var x = 0; x < T.cols; x++) s += String.fromCharCode(T.ch_[y * T.cols + x] & 0xff);
+			var c = /^\s*[a-zA-Z][)\-] /.test(s) ? RvipWM.itemColor(s.replace(/^\s*[a-zA-Z][)\-] /, '')) : null;
+			if (c !== (T.rowFg[y] || null)) { T.rowFg[y] = c; for (x = 0; x < T.cols; x++) draw(P_INV, y, x); }
 		}
-		function up() {
-			el.classList.remove('drag');
-			el.removeEventListener('pointermove', move);
-			el.removeEventListener('pointerup', up);
-			saveLayout();
-		}
-		el.addEventListener('pointermove', move);
-		el.addEventListener('pointerup', up);
-		e.preventDefault();
+	}
+	function applyDom() { if (wm) wm.apply(); }
+	function makeWM() {
+		var s = defaultLayout().split, A = areaSize();
+		var line = Math.round(L.font.msg * 1.3) + 4, stat = Math.round(L.font.stat * 1.3) + 4;
+		wm = RvipWM({
+			area: $('game'), menu: $('btn-layout'),
+			wins: [{ id: 'map', title: 'Map' }, { id: 'msg', title: 'Messages' }, { id: 'stat', title: 'Status' }, { id: 'inv', title: 'Inventory' }, { id: 'vis', title: 'Visible' }],
+			multi: { d: 'v', r: s.bottom, a: { d: 'h', r: s.stat, a: 'map', b: 'stat' }, b: { d: 'h', r: s.side, a: 'msg', b: { d: 'h', r: 0.5, a: 'inv', b: 'vis' } } },
+			single: { d: 'v', r: line / A.h, a: 'msg', b: { d: 'v', r: 1 - stat / (A.h - line), a: 'map', b: 'stat' } },
+			state: L.wm, noFont: 'map',
+			save: function (st) { L.wm = st; saveLayout(); },
+			layout: function (r) { rects = r; WIN.forEach(function (id, p) { fit(p); }); fit(P_POP); },
+			font: function (id, d) { if (id === 'vis') zoomList(d); else zoomText(id, d); },
+			onReset: resetLayout
+		});
+		wm.apply();
 	}
 
 	function zoomMap(d) {
@@ -270,7 +263,7 @@
 
 	function resetLayout() {
 		var a = L.audio;
-		L = defaultLayout(); L.audio = a;
+		L = defaultLayout(); L.audio = a; L.wm = wm.state();
 		for (var p = 0; p < panes.length; p++) if (panes[p]) shape(p);
 		applyDom(); saveLayout();
 	}
@@ -314,7 +307,7 @@
 		init: function (p, cols, rows) {
 			if (!L) loadLayout();
 			makePane(p, cols, rows);
-			if (p === P_INV) { $('game').hidden = false; applyDom(); }
+			if (p === P_INV) { $('game').hidden = false; if (L.font.vis) document.querySelector('#t-vis .body').style.fontSize = L.font.vis + 'px'; makeWM(); }
 		},
 		put: function (p, y, x, ch, t, u) {
 			var T = panes[p];
@@ -331,6 +324,7 @@
 			fit(P_POP);
 		},
 		flush: function (level, town, hy, hx) {
+			invColors();
 			if (level < 0) return;                  /* not in the dungeon yet */
 			if (hy !== hero.y || hx !== hero.x) { hero.y = hy; hero.x = hx; scrollMap(level !== audio.level); }
 			/* the cursor is drawn over the cell; redraw that cell next time */
@@ -340,6 +334,7 @@
 			audio.level = level;
 			if (!!town !== audio.town) { audio.town = !!town; updateMusic(); }
 		},
+		vis: function (s) { RvipWM.visible(document.querySelector('#t-vis .body'), s); },
 		key: function () { return events.length ? events.shift() : -1; },
 		requestSave: function () { saveReq = true; },   /* also for testing */
 		wantSave: function () {
@@ -518,19 +513,12 @@
 		$('help-close').onclick = toggleHelp;
 		$('btn-zoom-in').onclick = function () { zoomMap(1); };
 		$('btn-zoom-out').onclick = function () { zoomMap(-1); };
-		$('btn-layout').onclick = resetLayout;
 		$('btn-sound').onclick = function () { toggleAudio('sound'); };
 		$('btn-music').onclick = function () { toggleAudio('music'); };
 		$('btn-restart').onclick = function () { location.reload(); };
 		renderAudio();
 		document.querySelectorAll('button').forEach(function (b) {
 			b.addEventListener('mousedown', function (e) { e.preventDefault(); });
-		});
-		SPLITS.forEach(function (k) { $('split-' + k).addEventListener('pointerdown', function (e) { startDrag(k, e); }); });
-		['msg', 'stat', 'inv'].forEach(function (id) {
-			var w = $('t-' + id);
-			w.querySelector('.zin').addEventListener('click', function () { zoomText(id, 1); });
-			w.querySelector('.zout').addEventListener('click', function () { zoomText(id, -1); });
 		});
 	});
 	var resizeTimer = 0;
@@ -540,7 +528,6 @@
 		resizeTimer = setTimeout(function () {
 			if (L.auto) {                        /* not customised: follow the window */
 				var d = defaultLayout();
-				L.split = d.split;
 				if (d.tile !== L.tile) { L.tile = d.tile; shape(P_MAP); }
 			}
 			applyDom();

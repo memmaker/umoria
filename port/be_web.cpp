@@ -20,7 +20,35 @@ void be_put(int p, int y, int x, chtype ch, int tile, int under) { js_put(p, y, 
 void be_cursor(int p, int y, int x) { js_cursor(p, y, x); }
 void be_popup(int rows, int cols) { js_popup(rows, cols); }
 void be_sound(const char *event) { js_sound(event); }
+// Visible window (RVIP 5b): lit monsters and the objects on visible tiles
+EM_JS(void, js_vis, (const char *s), { if (Module.um.vis) Module.um.vis(UTF8ToString(s)); });
+static void sendVisible() {
+    static char buf[4096];
+    int n = 0;
+    bool play = game.character_generated && !game.character_is_dead;
+    for (int id = next_free_monster_id - 1; play && id >= config::monsters::MON_MIN_INDEX_ID && n < 3900; id--) {
+        Monster_t const &m = monsters[id];
+        if (m.hp > 0 && m.lit) {
+            Creature_t const &c = creatures_list[m.creature_id];
+            n += snprintf(buf + n, sizeof buf - n, "M%c%s\n", c.sprite, c.name);
+        }
+    }
+    for (int y = 0; play && y < dg.height; y++)
+        for (int x = 0; x < dg.width && n < 3900; x++) {
+            Tile_t const &t = dg.floor[y][x];
+            if (!t.treasure_id || !caveTileVisible(Coord_t{y, x})) continue;
+            Inventory_t const &item = game.treasure.list[t.treasure_id];
+            if (item.category_id > TV_MAX_PICK_UP) continue;
+            obj_desc_t d = {'\0'};
+            itemDescription(d, item, true);
+            n += snprintf(buf + n, sizeof buf - n, "I%c%s\n", caveGetTileSymbol(Coord_t{y, x}), d);
+        }
+    buf[n] = 0;
+    js_vis(buf);
+}
+
 void be_flush() {
+    sendVisible();
     bool play = game.character_generated && !game.character_is_dead;
     // player position in the Map pane (screen row 1, column 13 = pane 0,0):
     // the page scrolls a zoomed-in map to keep it in view
