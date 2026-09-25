@@ -85,4 +85,10 @@ parts.append(section('guide', "New player's guide",
                      ''.join(f'<h3>{esc(t)}</h3>{b}' for t, b in guide.items())))
 parts.append(section('web', 'Playing in the browser', WEB))
 
+# RVIP: About this version (rogue2wasm.md: Source and changes)
+parts.append('<h2 id="h-version">About this version</h2><ul>'
+             '<li>Based on <strong>Umoria 5.7.15</strong>.</li>'
+             '<li>Original source: <a href="https://github.com/dungeons-of-moria/umoria/tree/3bf8abc" target="_blank" rel="noopener">dungeons-of-moria/umoria, commit 3bf8abc</a></li>'
+             '<li>Our changes (port, auto-explore, command menu, web build): '
+             '<a href="https://github.com/memmaker/umoria/compare/3bf8abc...master" target="_blank" rel="noopener">memmaker/umoria</a></li></ul>')
 print('\n'.join(parts))
