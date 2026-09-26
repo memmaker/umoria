@@ -129,6 +129,9 @@ void endGame() {
     // which inhibits the printing of the tomb.
     if (dg.game_turn >= 0) {
         soundEvent(game.total_winner ? "kill_king" : "death");
+#ifdef __EMSCRIPTEN__
+        void be_run_end(); be_run_end();
+#endif
         if (game.total_winner) {
             kingly();
         }
