@@ -27,6 +27,10 @@ static WINDOW *base;          // the save_screen copy while in overlay mode
 static WINDOW *pn[NPANES];
 static chtype shown[24 * 80]; // what the Map pane has, per cell
 static int shown_tile[24 * 80];
+static const char *row_fg[24];   // wc_rowfg: the game's colour per screen row
+void wc_rowfg(int y, const char *css) {
+    if (y >= 0 && y < 24) row_fg[y] = css;
+}
 
 constexpr int MAP_Y = 1, MAP_X = 13, MAP_H = 22, MAP_W = 66;
 constexpr int HIST = 21;                  // message history rows
@@ -144,7 +148,10 @@ int wclrtobot(WINDOW *w) {
 int wclear(WINDOW *w) {
     w->cury = w->curx = 0;
     wclrtobot(w);
-    if (w == stdscr) mode = M_FULL;
+    if (w == stdscr) {
+        mode = M_FULL;
+        memset(row_fg, 0, sizeof row_fg);
+    }
     return OK;
 }
 
@@ -158,6 +165,7 @@ int overwrite(WINDOW *s, WINDOW *d) {
         base = d;
     } else if (d == stdscr) { // terminalRestoreScreen()
         mode = saved_mode;
+        memset(row_fg, 0, sizeof row_fg);
     }
     return OK;
 }
@@ -234,6 +242,7 @@ static void status_refresh() {
 }
 
 static char last0[128]; // message line as last seen
+static int nhist;        // history rows in use: they fill the pane from the top
 
 // a repeat of the newest history line becomes "line (xN)" in its row
 static void hist(const char *s) {
@@ -247,12 +256,16 @@ static void hist(const char *s) {
         reps = 1;
         snprintf(prev, sizeof prev, "%s", s);
         snprintf(buf, sizeof buf, "%s", s);
-        for (int y = 0; y < HIST - 1; y++) {
-            for (int x = 0; x < p->maxx; x++) set(p, y, x, at(p, y + 1, x));
+        if (nhist < HIST) {
+            nhist++;
+        } else {
+            for (int y = 0; y < HIST - 1; y++) {
+                for (int x = 0; x < p->maxx; x++) set(p, y, x, at(p, y + 1, x));
+            }
         }
     }
     int n = (int) strlen(buf);
-    for (int x = 0; x < p->maxx; x++) set(p, HIST - 1, x, x < n ? (unsigned char) buf[x] : ' ');
+    for (int x = 0; x < p->maxx; x++) set(p, nhist - 1, x, x < n ? (unsigned char) buf[x] : ' ');
 }
 
 static void msg_refresh() {
@@ -267,7 +280,8 @@ static void msg_refresh() {
     if (*last0 != 0 && strncmp(r, last0, strlen(last0)) != 0) hist(last0);
     strcpy(last0, r);
     be_prompt(r);  // the prompt line over the map
-    for (int x = 0; x < COLS; x++) set(pn[P_MSG], HIST, x, at(stdscr, 0, x));
+    // the live row right below the history (the pane's last row once it is full)
+    for (int x = 0; x < COLS; x++) set(pn[P_MSG], nhist, x, at(stdscr, 0, x));
 }
 
 // Pop-up: bounding box of the text that isn't the game screen underneath.
@@ -305,6 +319,7 @@ static void pop_refresh() {
     }
     for (int y = y0; y <= y1; y++) {
         for (int x = x0; x <= x1; x++) set(pn[P_POP], y - y0, x - x0, at(stdscr, y, x));
+        be_rowfg(P_POP, y - y0, row_fg[y] != nullptr ? row_fg[y] : "");
     }
     if (cy >= y0 && cy <= y1 && cx >= x0 && cx <= x1) be_cursor(P_POP, cy - y0, cx - x0);
 }
@@ -331,7 +346,7 @@ int wrefresh(WINDOW *w) {
     } else {
         pop_refresh();
     }
-    if (cy == 0) be_cursor(P_MSG, HIST, cx);
+    if (cy == 0) be_cursor(P_MSG, nhist, cx);
     untouch(stdscr);
     for (int i = P_STATUS; i < NPANES; i++) {
         if (i != P_POP || pop_h != 0) pflush(i);

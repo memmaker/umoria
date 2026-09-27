@@ -292,6 +292,8 @@ int be_getkey(int wait)
 }
 
 
-void be_invfg(int, const char *) {}
+void be_invfg(int, const char *, int) {}
+int be_icons() { return 0; }
+void be_rowfg(int, int, const char *) {}
 
 void be_prompt(const char *s) { }  // web only: the prompt line over the map

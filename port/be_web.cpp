@@ -4,6 +4,9 @@
 #include <emscripten.h>
 #include "../src/headers.h"
 #include "wcurses.h"
+#include "tilemap.h"
+
+int wc_itemtile(Inventory_t const &it); // tiles.cpp: tile of an item, -1 = none
 
 EM_JS(void, js_init, (int p, int c, int r), { Module.um.init(p, c, r); });
 EM_JS(void, js_put, (int p, int y, int x, int ch, int t, int u), { Module.um.put(p, y, x, ch, t, u); });
@@ -22,11 +25,20 @@ void be_put(int p, int y, int x, chtype ch, int tile, int under) { js_put(p, y, 
 void be_cursor(int p, int y, int x) { js_cursor(p, y, x); }
 void be_popup(int rows, int cols) { js_popup(rows, cols); }
 void be_sound(const char *event) { js_sound(event); }
-EM_JS(void, js_invfg, (int y, const char *c), { Module.um.invfg(y, UTF8ToString(c)); });
-void be_invfg(int y, const char *css) {
+EM_JS(void, js_invfg, (int y, const char *c, int t), { Module.um.invfg(y, UTF8ToString(c), t); });
+void be_invfg(int y, const char *css, int tile) {
     static const char *last[64];
-    if (y < 64 && last[y] != css) { last[y] = css; js_invfg(y, css); }
+    static int last_t[64];
+    if (y < 64 && (last[y] != css || last_t[y] != tile + 1)) {
+        last[y] = css;
+        last_t[y] = tile + 1;
+        js_invfg(y, css, tile);
+    }
 }
+EM_JS(int, js_icons, (void), { return Module.um.icons(); });
+int be_icons() { return js_icons(); }
+EM_JS(void, js_rowfg, (int p, int y, const char *c), { Module.um.rowfg(p, y, UTF8ToString(c)); });
+void be_rowfg(int p, int y, const char *css) { js_rowfg(p, y, css); }
 // Visible window (RVIP 5b): lit monsters and the objects on visible tiles
 EM_JS(void, js_vis, (const char *s), { if (Module.um.vis) Module.um.vis(UTF8ToString(s)); });
 static void sendVisible() {
@@ -37,7 +49,7 @@ static void sendVisible() {
         Monster_t const &m = monsters[id];
         if (m.hp > 0 && m.lit) {
             Creature_t const &c = creatures_list[m.creature_id];
-            n += snprintf(buf + n, sizeof buf - n, "M%c%s\n", c.sprite, c.name);
+            n += snprintf(buf + n, sizeof buf - n, "M%c%s\t\t%d\n", c.sprite, c.name, mon_tile[m.creature_id]);
         }
     }
     for (int y = 0; play && y < dg.height; y++)
@@ -48,7 +60,8 @@ static void sendVisible() {
             if (item.category_id > TV_MAX_PICK_UP) continue;
             obj_desc_t d = {'\0'};
             itemDescription(d, item, true);
-            n += snprintf(buf + n, sizeof buf - n, "I%c%s\t%s\n", caveGetTileSymbol(Coord_t{y, x}), d, wc_css(item.category_id));
+            n += snprintf(buf + n, sizeof buf - n, "I%c%s\t%s\t%d\n", caveGetTileSymbol(Coord_t{y, x}), d, wc_css(item.category_id),
+                          wc_itemtile(item));
         }
     buf[n] = 0;
     js_vis(buf);
@@ -69,7 +82,12 @@ int be_getkey(int wait) {
         if (at_command_prompt && js_want_save()) autosaveGame();
         int k = js_key(at_command_prompt);
         if (k >= 0) return k;
-        if (!wait) { // polling (explore, running, resting): let the page paint
+        if (!wait && py_auto != 0) { // auto-explore / walk to stairs: paint every step
+            emscripten_sleep(40);
+            last = emscripten_get_now();
+            return -1;
+        }
+        if (!wait) { // polling (running, resting): let the page paint
             if (emscripten_get_now() - last > 50) {
                 last = emscripten_get_now();
                 emscripten_sleep(0);

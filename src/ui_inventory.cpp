@@ -5,6 +5,12 @@
 
 #include <vector>
 #include "headers.h"
+#ifdef UMORIA_X11
+#include "curses.h" // wc_rowfg: list rows in the item's colour (RVIP)
+#define ROW_FG(y, i) wc_rowfg(y, wc_css(py.inventory[i].category_id))
+#else
+#define ROW_FG(y, i) ((void) 0)
+#endif
 
 // RVIP 3c: a cursor over an item list whose entries are drawn on screen
 // rows 1..n by `redraw`. 8/2 move, 4/6 are '/' (switch list), 0 and . are
@@ -113,6 +119,7 @@ int displayInventoryItems(int itemIdStart, int itemIdEnd, bool weighted, int col
             inventoryItemWeightText(text, i);
             putStringClearToEOL(text, Coord_t{currentLine, 71});
         }
+        ROW_FG(currentLine, i);
 
         currentLine++;
     }
@@ -256,6 +263,7 @@ int displayEquipment(bool showWeights, int column) {
             inventoryItemWeightText(text, i);
             putStringClearToEOL(text, Coord_t{line + 1, 71});
         }
+        ROW_FG(line + 1, i);
 
         line++;
     }

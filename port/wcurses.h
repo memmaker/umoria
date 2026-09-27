@@ -68,5 +68,9 @@ void be_sound(const char *event); // web: play a sound event
 void be_end();                   // web: the game ended
 int tile_for(int y, int x, int ch, int *under); // tiles.cpp: -1 = text
 const char *wc_css(int tval);                  // tiles.cpp: an item's colour
-void be_invfg(int y, const char *css);         // inventory row colour
+void be_invfg(int y, const char *css, int tile); // inventory row colour and icon (-1: none)
+int be_icons();                                  // a tile set is loaded: rows get icons
+void be_rowfg(int pane, int y, const char *css); // a pop-up row's colour
+void wc_rowfg(int y, const char *css);           // colour of a screen row (cleared with the screen)
+int wc_objtile(int i);                           // tiles.cpp: tile of py.inventory[i], -1 = none
 void wc_inv(WINDOW *);                          // tiles.cpp: Inventory pane

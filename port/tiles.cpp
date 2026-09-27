@@ -46,6 +46,13 @@ static int object_tile(Inventory_t const &it) {
     return t;
 }
 
+int wc_itemtile(Inventory_t const &it) { return object_tile(it); }
+
+int wc_objtile(int i) {
+    Inventory_t const &it = py.inventory[i];
+    return it.category_id == TV_NOTHING ? -1 : object_tile(it);
+}
+
 int tile_for(int y, int x, int ch, int *under) {
     *under = -1;
     if (ch == ' ') return -1;
@@ -100,12 +107,19 @@ const char *wc_css(int tval) {
     return "";
 }
 
-// Inventory pane: equipment then pack, one line each.
+// Inventory pane: pack then equipment, one line each. With a tile set the
+// row is "a)   name" (JS draws the icon over cols 2-4), else "a) ! name".
 void wc_inv(WINDOW *w) {
     obj_desc_t d;
     int y = 0;
-    auto line = [&](const char *s, const char *css = "") {
-        be_invfg(y, css);
+    bool icons = be_icons() != 0;
+    auto item = [&](char *buf, size_t n, char letter, int i) {
+        itemDescription(d, py.inventory[i], true);
+        if (icons) snprintf(buf, n, "%c)   %s", letter, d);
+        else snprintf(buf, n, "%c) %c %s", letter, py.inventory[i].sprite, d);
+    };
+    auto line = [&](const char *s, const char *css = "", int tile = -1) {
+        be_invfg(y, css, icons ? tile : -1);
         wmove(w, y++, 0);
         waddstr(w, s);
         wclrtoeol(w);
@@ -113,20 +127,18 @@ void wc_inv(WINDOW *w) {
     line("Inventory");
     for (int i = 0; i < py.pack.unique_items && y < w->maxy - 1; i++) {
         char buf[200];
-        itemDescription(d, py.inventory[i], true);
-        snprintf(buf, sizeof buf, "%c) %s", 'a' + i, d);
+        item(buf, sizeof buf, (char) ('a' + i), i);
         buf[w->maxx - 1] = 0;
-        line(buf, wc_css(py.inventory[i].category_id));
+        line(buf, wc_css(py.inventory[i].category_id), wc_objtile(i));
     }
     line("");
     line("Equipment");
     for (int i = PlayerEquipment::Wield; i < PLAYER_INVENTORY_SIZE && y < w->maxy; i++) {
         if (py.inventory[i].category_id == TV_NOTHING) continue;
         char buf[200];
-        itemDescription(d, py.inventory[i], true);
-        snprintf(buf, sizeof buf, "%c) %s", 'a' + i - PlayerEquipment::Wield, d);
+        item(buf, sizeof buf, (char) ('a' + i - PlayerEquipment::Wield), i);
         buf[w->maxx - 1] = 0;
-        line(buf, wc_css(py.inventory[i].category_id));
+        line(buf, wc_css(py.inventory[i].category_id), wc_objtile(i));
     }
     while (y < w->maxy) line("");
 }
