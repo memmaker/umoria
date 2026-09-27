@@ -134,4 +134,6 @@ void playerAutoStep(char mode) {
     py_auto = mode; // printMessage() or playerDisturb() during the move clears it
     playerMove(dir, true);
     visited[py.pos.y][py.pos.x] = true;
+    // < >: stop on the stairs; the player presses the key again to take them
+    if (mode != 'g' && target(mode, py.pos.y, py.pos.x)) py_auto = 0;
 }

@@ -28,6 +28,8 @@ static void parseHalf(std::string h, std::vector<MenuEntry> &out) {
     } else {
         return; // "CTRL ~", "SHIFT ~", "Enter": not a single command key
     }
+    // no movement in the menu: moves and runs are keys, not commands to pick
+    if (desc.compare(0, 4, "Move") == 0 || desc.compare(0, 3, "Run") == 0) return;
     out.push_back({k, desc});
 }
 
