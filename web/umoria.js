@@ -251,9 +251,9 @@
 	function zoomText(id, d) {
 		var ids = [id];
 		ids.forEach(function (k) { L.font[k] = clamp(L.font[k] + d, FONT_MIN, FONT_MAX); });
-		L.font.pop = L.font[ids[0]];            /* pop-ups follow the last zoomed window */
+		/* one size per window; pop-up text follows Messages */
+		if (id === 'msg') { L.font.pop = L.font.msg; if (panes[P_POP]) shape(P_POP); }
 		WIN.forEach(function (w, p) { if (p && ids.indexOf(w) >= 0) shape(p); });
-		if (panes[P_POP]) shape(P_POP);
 		applyDom(); saveLayout();
 	}
 
