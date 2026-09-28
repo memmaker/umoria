@@ -178,12 +178,56 @@ void wc_dungeon() {
 
 static int pop_h, pop_w;
 
+// Text panes go out as whole lines (RVIP W0 rules 5, 6): each changed row
+// once, trimmed, standout runs between \x01 and \x02, with the row's colour
+// and icon tile; and the rows in use (to the last non-blank one or the
+// cursor), so the page shows no empty lines at the bottom.
+static const char *rcss[NPANES][32];
+static int rtile[NPANES][32], rows_sent[NPANES], cur_p = -1, cur_y;
+
+void wc_rowattr(int p, int y, const char *css, int tile) {
+    WINDOW *w = pn[p];
+    if (css == nullptr) css = "";
+    if (w == nullptr || y < 0 || y >= w->maxy || y >= 32) return;
+    if (rcss[p][y] != nullptr && strcmp(rcss[p][y], css) == 0 && rtile[p][y] == tile) return;
+    rcss[p][y] = css;
+    rtile[p][y] = tile;
+    touch(w, y, 0);
+}
+
+static void cursor(int p, int y, int x) {
+    cur_p = p;
+    cur_y = y;
+    be_cursor(p, y, x);
+}
+
 static void pflush(int i) {
     WINDOW *p = pn[i];
-    for (int y = 0; p != nullptr && y < p->maxy; y++) {
+    if (p == nullptr) return;
+    int used = 0;
+    for (int y = 0; y < p->maxy; y++) {
+        for (int x = 0; x < p->maxx; x++) {
+            if (p->c[y * p->maxx + x] != ' ') used = y + 1;
+        }
+    }
+    if (cur_p == i && cur_y >= used) used = cur_y + 1;
+    if (used != rows_sent[i]) be_rows(i, rows_sent[i] = used);
+    for (int y = 0; y < p->maxy; y++) {
         if (p->first[y] < 0) continue;
-        for (int x = p->first[y]; x <= p->last[y]; x++) be_put(i, y, x, p->c[y * p->maxx + x], -1, -1);
         p->first[y] = p->last[y] = -1;
+        char buf[3 * 80 + 1];
+        int n = 0, so = 0, end = p->maxx;
+        while (end > 0 && p->c[y * p->maxx + end - 1] == ' ') end--;
+        for (int x = 0; x < end && x < 80; x++) {
+            chtype ch = p->c[y * p->maxx + x];
+            int s = (ch & A_STANDOUT) != 0;
+            if (s != so) buf[n++] = (char) ((so = s) ? 1 : 2);
+            int c = (int) (ch & A_CHARTEXT);
+            buf[n++] = (char) (c < 32 || c > 126 ? ' ' : c);
+        }
+        if (so) buf[n++] = 2;
+        buf[n] = 0;
+        be_line(i, y, buf, y < 32 && rcss[i][y] ? rcss[i][y] : "", y < 32 ? rtile[i][y] : -1);
     }
 }
 
@@ -316,12 +360,14 @@ static void pop_refresh() {
             free(pn[P_POP]);
         }
         pn[P_POP] = newwin(pop_h, pop_w, 0, 0);
+        memset(rcss[P_POP], 0, sizeof rcss[P_POP]);
+        rows_sent[P_POP] = 0;
     }
     for (int y = y0; y <= y1; y++) {
         for (int x = x0; x <= x1; x++) set(pn[P_POP], y - y0, x - x0, at(stdscr, y, x));
-        be_rowfg(P_POP, y - y0, row_fg[y] != nullptr ? row_fg[y] : "");
+        wc_rowattr(P_POP, y - y0, row_fg[y], -1);
     }
-    if (cy >= y0 && cy <= y1 && cx >= x0 && cx <= x1) be_cursor(P_POP, cy - y0, cx - x0);
+    if (cy >= y0 && cy <= y1 && cx >= x0 && cx <= x1) cursor(P_POP, cy - y0, cx - x0);
 }
 
 static void dump(FILE *f, const char *name, WINDOW *p) {
@@ -335,18 +381,18 @@ static void dump(FILE *f, const char *name, WINDOW *p) {
 int wrefresh(WINDOW *w) {
     if (w != stdscr) return OK; // wrefresh(curscr) = ^R redraw: nothing to do
     int cy = stdscr->cury, cx = stdscr->curx;
-    be_cursor(-1, 0, 0);
+    cursor(-1, 0, 0);
     msg_refresh();
     if (mode == M_DUNGEON) {
         close_popup();
         map_refresh();
         status_refresh();
         wc_inv(pn[P_INV]);
-        if (cy >= MAP_Y && cy < MAP_Y + MAP_H && cx >= MAP_X) be_cursor(P_MAP, cy - MAP_Y, cx - MAP_X);
+        if (cy >= MAP_Y && cy < MAP_Y + MAP_H && cx >= MAP_X) cursor(P_MAP, cy - MAP_Y, cx - MAP_X);
     } else {
         pop_refresh();
     }
-    if (cy == 0) be_cursor(P_MSG, nhist, cx);
+    if (cy == 0) cursor(P_MSG, nhist, cx);
     untouch(stdscr);
     for (int i = P_STATUS; i < NPANES; i++) {
         if (i != P_POP || pop_h != 0) pflush(i);

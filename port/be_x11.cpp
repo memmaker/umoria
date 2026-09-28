@@ -292,8 +292,15 @@ int be_getkey(int wait)
 }
 
 
-void be_invfg(int, const char *, int) {}
 int be_icons() { return 0; }
-void be_rowfg(int, int, const char *) {}
+void be_rows(int, int) {}
+void be_line(int p, int y, const char *s, const char *, int)
+{
+    chtype so = 0;
+    for (int x = 0; x < P[p].cols; x++) {
+        while (*s == 1 || *s == 2) so = *s++ == 1 ? A_STANDOUT : 0;
+        be_put(p, y, x, (*s ? (unsigned char) *s++ : ' ') | so, -1, -1);
+    }
+}
 
 void be_prompt(const char *s) { }  // web only: the prompt line over the map

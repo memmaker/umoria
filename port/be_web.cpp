@@ -25,20 +25,12 @@ void be_put(int p, int y, int x, chtype ch, int tile, int under) { js_put(p, y, 
 void be_cursor(int p, int y, int x) { js_cursor(p, y, x); }
 void be_popup(int rows, int cols) { js_popup(rows, cols); }
 void be_sound(const char *event) { js_sound(event); }
-EM_JS(void, js_invfg, (int y, const char *c, int t), { Module.um.invfg(y, UTF8ToString(c), t); });
-void be_invfg(int y, const char *css, int tile) {
-    static const char *last[64];
-    static int last_t[64];
-    if (y < 64 && (last[y] != css || last_t[y] != tile + 1)) {
-        last[y] = css;
-        last_t[y] = tile + 1;
-        js_invfg(y, css, tile);
-    }
-}
+EM_JS(void, js_line, (int p, int y, const char *s, const char *c, int t), { Module.um.line(p, y, UTF8ToString(s), UTF8ToString(c), t); });
+void be_line(int p, int y, const char *s, const char *css, int tile) { js_line(p, y, s, css, tile); }
+EM_JS(void, js_rows, (int p, int n), { Module.um.rows(p, n); });
+void be_rows(int p, int n) { js_rows(p, n); }
 EM_JS(int, js_icons, (void), { return Module.um.icons(); });
 int be_icons() { return js_icons(); }
-EM_JS(void, js_rowfg, (int p, int y, const char *c), { Module.um.rowfg(p, y, UTF8ToString(c)); });
-void be_rowfg(int p, int y, const char *css) { js_rowfg(p, y, css); }
 // Visible window (RVIP 5b): lit monsters and the objects on visible tiles
 EM_JS(void, js_vis, (const char *s), { if (Module.um.vis) Module.um.vis(UTF8ToString(s)); });
 static void sendVisible() {

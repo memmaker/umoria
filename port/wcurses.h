@@ -58,7 +58,10 @@ void wc_dungeon();  // the game draws the map: back from full-screen text
 // pop-up box sized to its content.
 enum { P_MAP, P_STATUS, P_MSG, P_INV, P_POP, NPANES };
 void be_init(int pane, int cols, int rows);
-void be_put(int pane, int y, int x, chtype ch, int tile, int under);
+void be_put(int pane, int y, int x, chtype ch, int tile, int under); // map cells
+// text panes: row y as trimmed text, standout between \x01 and \x02, row colour ("" = default), icon tile (-1 none)
+void be_line(int pane, int y, const char *text, const char *css, int tile);
+void be_rows(int pane, int rows);       // text pane: rows in use (no empty lines at the bottom)
 void be_cursor(int pane, int y, int x);
 void be_prompt(const char *s);  // live message row (rvip-wm.js prompt line) // pane -1: no cursor
 void be_popup(int rows, int cols);      // 0: close
@@ -68,9 +71,8 @@ void be_sound(const char *event); // web: play a sound event
 void be_end();                   // web: the game ended
 int tile_for(int y, int x, int ch, int *under); // tiles.cpp: -1 = text
 const char *wc_css(int tval);                  // tiles.cpp: an item's colour
-void be_invfg(int y, const char *css, int tile); // inventory row colour and icon (-1: none)
 int be_icons();                                  // a tile set is loaded: rows get icons
-void be_rowfg(int pane, int y, const char *css); // a pop-up row's colour
+void wc_rowattr(int pane, int y, const char *css, int tile); // a text pane row's colour and icon (-1: none)
 void wc_rowfg(int y, const char *css);           // colour of a screen row (cleared with the screen)
 int wc_objtile(int i);                           // tiles.cpp: tile of py.inventory[i], -1 = none
 void wc_inv(WINDOW *);                          // tiles.cpp: Inventory pane
