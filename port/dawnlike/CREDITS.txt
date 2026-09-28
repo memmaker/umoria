@@ -1,0 +1,8 @@
+Umoria web port tiles (second set, next to Shockbolt): DawnLike 16x16
+Universal Rogue-like tileset v1.81 by DragonDePlatino, palette by DawnBringer.
+Licence: CC BY 4.0.
+https://opengameart.org/content/dawnlike-16x16-universal-rogue-like-tileset-v18
+Sprite names from DawnLikeAtlas by Tommy Ettinger (CC BY 4.0):
+https://github.com/tommyettinger/DawnLikeAtlas
+port/tiles-dawn.png and port/tiles-dawn-1.png (second animation frame) are
+built from those by port/mkdawn.py.

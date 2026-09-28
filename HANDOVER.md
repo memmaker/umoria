@@ -11,3 +11,15 @@
   Here: `be_prompt(r)` from `msg_refresh()` in `port/wcurses.cpp` (row 0 text),
   `js_key(at_command_prompt)` in `port/be_web.cpp`; `be_x11.cpp` has an empty
   stub.
+
+## DawnLike tiles (2026-09-28)
+
+- Tiles button: Shockbolt → DawnLike → DawnLike|a (animated) → None; same slot
+  layout. `port/mktiles.py` gives every creature/object/flavour/player its own
+  slot and writes `port/slots.tsv`; `port/mkdawn.py` reads that and builds
+  `port/tiles-dawn.png` / `tiles-dawn-1.png` (hand table `MON` for stand-ins).
+- Autotiles (`port/tiles.cpp` `floor_tile`): floors are `base + mask` of
+  bordered sides from the real level (room tile, corridor dirt, town grass;
+  day/night = lit/dark); walls connect only to walls that border open ground
+  (inner rock is flat), so rooms and buildings get outlines. Shockbolt repeats
+  its one tile in all 16 slots. Credits: `port/dawnlike/CREDITS.txt`.

@@ -7,6 +7,7 @@ tables, matches by name, and writes:
   port/tilemap.h   tile index per creature / object / flavour / player
   port/tiles.png   the used 64x64 tiles, 32 per row (committed)
   port/tiles.rgba  same, raw RGBA with a w,h header (loaded by be_x11)
+  port/slots.tsv   what each slot shows (read by mkdawn.py)
 Unmatched things fall back to a similar tile; anything left is ASCII.
 Run from anywhere: python3 port/mktiles.py [angband-dir]
 """
@@ -94,15 +95,27 @@ for m in re.finditer(r'^\s*\{"([^"]*)",\s*0x[0-9A-F]+L,\s*(TV_\w+),\s*\'(\\?.)\'
 assert len(creatures) == 279, len(creatures)
 assert len(objects) == 420, len(objects)
 
-used = {}
+used = {}   # key -> slot; slots[i] = (tile, key)
+slots = []
 
 
-def tid(t):
+def tid(t, key=None):
+    """Slot for Shockbolt tile t. key names the thing shown: each thing gets
+    its own slot, so the DawnLike sheet (mkdawn.py) can draw it differently."""
     if t is None:
         return -1
-    if t not in used:
-        used[t] = len(used)
-    return used[t]
+    k = key if key is not None else ('tile', t)
+    if k not in used:
+        used[k] = len(slots)
+        slots.append((t, k))
+    return used[k]
+
+
+def block16(t, key):
+    """16 slots (one per autotile mask), aligned so they share a sheet row."""
+    while len(slots) % 16:
+        slots.append((None, ('pad', len(slots))))
+    return [tid(t, key + (m,)) for m in range(16)][0]
 
 
 # ---- monsters: exact name, else same letter with most words in common ----
@@ -127,7 +140,7 @@ for name, ch, lvl in creatures:
                 best = (score, a)
         k = best[1]
         report.append('monster %-32s %s -> %s' % (name, ch, k))
-    mon_tile.append(tid(mon[k]))
+    mon_tile.append(tid(mon[k], ('mon', name)))
 
 # ---- objects ----
 TVAL = {'TV_SWORD': ['sword'], 'TV_HAFTED': ['hafted'], 'TV_POLEARM': ['polearm'],
@@ -172,7 +185,7 @@ def find_obj(tvals, cands):
 
 
 obj_tile = []
-for name, tv, ch, sub in objects:
+for oi, (name, tv, ch, sub) in enumerate(objects):
     t = None
     tvals = TVAL.get(tv)
     if tvals and tv not in ('TV_AMULET', 'TV_RING', 'TV_WAND', 'TV_STAFF', 'TV_SCROLL1', 'TV_SCROLL2',
@@ -216,7 +229,7 @@ for name, tv, ch, sub in objects:
     if t is None and tv not in ('TV_AMULET', 'TV_RING', 'TV_WAND', 'TV_STAFF', 'TV_SCROLL1',
                                 'TV_SCROLL2', 'TV_POTION1', 'TV_POTION2', 'TV_NOTHING'):
         report.append('object  %-32s %s -> ASCII' % (name, tv))
-    obj_tile.append(tid(t))
+    obj_tile.append(tid(t, ('obj', oi, tv, name)))
 
 
 # ---- flavours: Umoria's appearance names -> Angband flavour tiles ----
@@ -234,14 +247,14 @@ def flv_table(moria, kind):
         if t is None:
             t = tiles[i % len(tiles)][1]
             report.append('flavour %-10s %-20s -> %s' % (kind, n, tiles[i % len(tiles)][0]))
-        out.append((n, tid(t)))
+        out.append((n, tid(t, ('flv', kind, n))))
     return out
 
 
 flv = {'potion': flv_table(arr('colors'), 'potion'), 'ring': flv_table(arr('rocks'), 'ring'),
        'amulet': flv_table(arr('amulets'), 'amulet'), 'wand': flv_table(arr('metals'), 'wand'),
        'staff': flv_table(arr('woods'), 'staff'), 'mushroom': flv_table(arr('mushrooms'), 'mushroom')}
-scroll_tiles = [tid(t) for _, t in flavors['scroll']]
+scroll_tiles = [tid(t, ('scroll', i)) for i, (_, t) in enumerate(flavors['scroll'])]
 
 # ---- player: xtra-shb.prf conditions, last match wins ----
 RACES = ['Human', 'Half-Elf', 'Elf', 'Halfling', 'Gnome', 'Dwarf', 'Half-Orc', 'Half-Troll']
@@ -259,7 +272,7 @@ def player_tile(race, cls, sex):
         elif ok and l.startswith('monster:<player>:'):
             p = l.split('#')[0].strip().split(':')
             tile = rc(p[2], p[3])
-    return tid(tile)
+    return tid(tile, ('player', race, cls, sex))
 
 
 players = [[[player_tile(r, c, s) for s in ('Female', 'Male')] for c in CLASSES] for r in RACES]
@@ -270,6 +283,12 @@ for key, name in [('FLOOR', 'floor'), ('GRANITE', 'granite'), ('MAGMA', 'magma')
                   ('MAGMA_K', 'magma_k'), ('QUARTZ_K', 'quartz_k'), ('PERM', 'perm'),
                   ('LESS', 'up'), ('MORE', 'down'), ('RUBBLE', 'rubble')]:
     T[name] = (tid(feat[(key, 'lit')]), tid(feat[(key, 'dark')]))
+# autotiles (DawnLike): base + mask of bordered/connected sides (n8 s4 w2 e1);
+# Shockbolt has one tile per terrain, repeated 16 times
+AUTO_FLOOR = [[block16(feat[('FLOOR', l)], ('floor', k, l)) for l in ('lit', 'dark')]
+              for k in ('room', 'corr', 'town')]
+AUTO_WALL = [[block16(feat[(w, l)], ('wall', w, l)) for l in ('lit', 'dark')]
+             for w in ('GRANITE', 'MAGMA', 'QUARTZ', 'PERM')]
 
 # ---- output ----
 os.chdir(HERE)
@@ -291,14 +310,24 @@ with open('tilemap.h', 'w') as f:
         '{%s}' % ','.join('{%d,%d}' % tuple(s) for s in c) for c in players))
     for k, (lit, dark) in T.items():
         f.write('static const short T_%s[2] = {%d, %d}; // lit, dark\n' % (k.upper(), lit, dark))
+    f.write('static const short T_AUTO_FLOOR[3][2] = {%s}; // room/corr/town, lit/dark: base + mask\n'
+            % ','.join('{%d,%d}' % tuple(b) for b in AUTO_FLOOR))
+    f.write('static const short T_AUTO_WALL[4][2] = {%s}; // granite/magma/quartz/perm, lit/dark\n'
+            % ','.join('{%d,%d}' % tuple(b) for b in AUTO_WALL))
+with open('slots.tsv', 'w') as f:   # what each slot shows, for mkdawn.py
+    for i, (t, k) in enumerate(slots):
+        f.write('%d\t%s\n' % (i, '\t'.join(str(v) for v in k)))
 
 sheet = Image.open(os.path.join(SHB, '64x64.png')).convert('RGBA')
-rows = (len(used) + 31) // 32
+rows = (len(slots) + 31) // 32
 out = Image.new('RGBA', (32 * 64, rows * 64))
-for (r, c), i in used.items():
+for i, (t, k) in enumerate(slots):
+    if t is None:
+        continue
+    r, c = t
     out.paste(sheet.crop((c * 64, r * 64, c * 64 + 64, r * 64 + 64)), ((i % 32) * 64, (i // 32) * 64))
 out.save('tiles.png', optimize=True)
 with open('tiles.rgba', 'wb') as f:
     f.write(struct.pack('<II', out.width, out.height) + out.tobytes())
-print('%d tiles; fallbacks:' % len(used))
+print('%d slots; fallbacks:' % len(slots))
 print('\n'.join(report))

@@ -6,16 +6,56 @@
 #include "wcurses.h"
 #include "tilemap.h"
 
-static int floor_tile(Tile_t const &t) {
-    bool lit = t.permanent_light || t.temporary_light;
-    int i = lit ? 0 : 1;
-    switch (t.feature_id) {
-        case TILE_GRANITE_WALL: return T_GRANITE[i];
-        case TILE_MAGMA_WALL: return T_MAGMA[i];
-        case TILE_QUARTZ_WALL: return T_QUARTZ[i];
-        case TILE_BOUNDARY_WALL: return T_PERM[i];
-        default: return T_FLOOR[i];
+// What a grid of the real level is, for autotiling (RVIP-Finetuning:
+// DawnLike floors are autotiles). Secret doors count as wall.
+enum { K_NONE, K_ROOM, K_CORR, K_TOWN, K_DOOR, K_WALL };
+
+static bool inside(int y, int x) { return y >= 0 && x >= 0 && y < dg.height && x < dg.width; }
+
+static int kind(int y, int x) {
+    if (!inside(y, x)) return K_NONE;
+    Tile_t const &t = dg.floor[y][x];
+    if (t.feature_id >= MIN_CAVE_WALL) return K_WALL;
+    if (t.treasure_id != 0 && game.treasure.list[t.treasure_id].category_id == TV_SECRET_DOOR) return K_WALL;
+    if (t.feature_id == TILE_NULL_WALL) return K_NONE;
+    if (dg.current_level == 0) return K_TOWN;
+    if (t.feature_id == TILE_BLOCKED_FLOOR) return K_DOOR;   // door or rubble: joins any floor
+    return t.feature_id <= MAX_CAVE_ROOM ? K_ROOM : K_CORR;
+}
+
+// a wall that borders open ground (the face you see); walls connect only to
+// these, so solid rock does not become a lattice
+static bool edge_wall(int y, int x) {
+    if (kind(y, x) != K_WALL) return false;
+    for (int dy = -1; dy <= 1; dy++) {
+        for (int dx = -1; dx <= 1; dx++) {
+            int k = kind(y + dy, x + dx);
+            if (k != K_WALL && k != K_NONE) return true;
+        }
     }
+    return false;
+}
+
+static const int DY[] = {-1, 1, 0, 0}, DX[] = {0, 0, -1, 1};   // n s w e -> mask 8 4 2 1
+
+static int floor_tile(int y, int x) {
+    Tile_t const &t = dg.floor[y][x];
+    int i = t.permanent_light || t.temporary_light ? 0 : 1;
+    int k = kind(y, x), m = 0;
+    if (k == K_WALL) {
+        int w = t.feature_id == TILE_MAGMA_WALL ? 1 : t.feature_id == TILE_QUARTZ_WALL ? 2
+              : t.feature_id == TILE_BOUNDARY_WALL ? 3 : 0;
+        for (int d = 0; d < 4 && edge_wall(y, x); d++) {   // inner rock stays plain
+            if (edge_wall(y + DY[d], x + DX[d])) m |= 8 >> d;
+        }
+        return T_AUTO_WALL[w][i] + m;
+    }
+    if (k == K_DOOR) k = K_CORR;     // the floor drawn under a door or rubble
+    for (int d = 0; d < 4; d++) {
+        int n = kind(y + DY[d], x + DX[d]);
+        if (n != k && n != K_DOOR) m |= 8 >> d;
+    }
+    return T_AUTO_FLOOR[k == K_ROOM ? 0 : k == K_CORR ? 1 : 2][i] + m;
 }
 
 template <class F> static int flavour(F const &tab, int n, const char *name) {
@@ -59,7 +99,7 @@ int tile_for(int y, int x, int ch, int *under) {
     Coord_t c{y + dg.panel.row_prt, x + dg.panel.col_prt};
     if (c.y < 0 || c.x < 0 || c.y >= dg.height || c.x >= dg.width) return -1;
     Tile_t const &t = dg.floor[c.y][c.x];
-    int fl = floor_tile(t);
+    int fl = floor_tile(c.y, c.x);
     if (ch == '@' && t.creature_id == 1) {
         *under = fl;
         return player_tiles[py.misc.race_id % 8][py.misc.class_id % 6][py.misc.gender ? 1 : 0];

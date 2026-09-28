@@ -1,0 +1,1056 @@
+0	mon	Filthy Street Urchin
+1	mon	Blubbering Idiot
+2	mon	Pitiful-Looking Beggar
+3	mon	Mangy-Looking Leper
+4	mon	Squint-Eyed Rogue
+5	mon	Singing, Happy Drunk
+6	mon	Mean-Looking Mercenary
+7	mon	Battle-Scarred Veteran
+8	mon	Grey Mushroom patch
+9	mon	Giant Yellow Centipede
+10	mon	Giant White Centipede
+11	mon	White Icky-Thing
+12	mon	Clear Icky-Thing
+13	mon	Giant White Mouse
+14	mon	Large Brown Snake
+15	mon	Large White Snake
+16	mon	Kobold
+17	mon	White Worm mass
+18	mon	Floating Eye
+19	mon	Shrieker Mushroom patch
+20	mon	Blubbering Icky-Thing
+21	mon	Metallic Green Centipede
+22	mon	Novice Warrior
+23	mon	Novice Rogue
+24	mon	Novice Priest
+25	mon	Novice Mage
+26	mon	Yellow Mushroom patch
+27	mon	White Jelly
+28	mon	Giant Green Frog
+29	mon	Giant Black Ant
+30	mon	White Harpy
+31	mon	Blue Yeek
+32	mon	Green Worm mass
+33	mon	Large Black Snake
+34	mon	Poltergeist
+35	mon	Metallic Blue Centipede
+36	mon	Giant White Louse
+37	mon	Black Naga
+38	mon	Spotted Mushroom patch
+39	mon	Yellow Jelly
+40	mon	Scruffy-Looking Hobbit
+41	mon	Huge Brown Bat
+42	mon	Giant White Ant
+43	mon	Yellow Mold
+44	mon	Metallic Red Centipede
+45	mon	Yellow Worm mass
+46	mon	Large Green Snake
+47	mon	Radiation Eye
+48	mon	Drooling Harpy
+49	mon	Silver Mouse
+50	mon	Black Mushroom patch
+51	mon	Blue Jelly
+52	mon	Creeping Copper Coins
+53	mon	Giant White Rat
+54	mon	Giant Black Centipede
+55	mon	Giant Blue Centipede
+56	mon	Blue Worm mass
+57	mon	Large Grey Snake
+58	mon	Jackal
+59	mon	Green Naga
+60	mon	Green Glutton Ghost
+61	mon	White Mushroom patch
+62	mon	Green Jelly
+63	mon	Skeleton Kobold
+64	mon	Silver Jelly
+65	mon	Giant Black Frog
+66	mon	Grey Icky-Thing
+67	mon	Disenchanter Eye
+68	mon	Black Yeek
+69	mon	Red Worm mass
+70	mon	Giant House Fly
+71	mon	Copperhead Snake
+72	mon	Rot Jelly
+73	mon	Purple Mushroom patch
+74	mon	Brown Mold
+75	mon	Giant Brown Bat
+76	mon	Creeping Silver Coins
+77	mon	Orc
+78	mon	Grey Harpy
+79	mon	Blue Icky-Thing
+80	mon	Rattlesnake
+81	mon	Bloodshot Eye
+82	mon	Red Naga
+83	mon	Red Jelly
+84	mon	Giant Red Frog
+85	mon	Green Icky-Thing
+86	mon	Zombie Kobold
+87	mon	Lost Soul
+88	mon	Greedy Little Gnome
+89	mon	Giant Green Fly
+90	mon	Brown Yeek
+91	mon	Green Mold
+92	mon	Skeleton Orc
+93	mon	Seedy Looking Human
+94	mon	Red Icky-Thing
+95	mon	Bandit
+96	mon	Yeti
+97	mon	Bloodshot Icky-Thing
+98	mon	Giant Grey Rat
+99	mon	Black Harpy
+100	mon	Giant Black Bat
+101	mon	Clear Yeek
+102	mon	Orc Shaman
+103	mon	Giant Red Ant
+104	mon	King Cobra
+105	mon	Clear Mushroom patch
+106	mon	Giant White Tick
+107	mon	Hairy Mold
+108	mon	Disenchanter Mold
+109	mon	Giant Red Centipede
+110	mon	Creeping Gold Coins
+111	mon	Giant Fruit Fly
+112	mon	Brigand
+113	mon	Orc Zombie
+114	mon	Orc Warrior
+115	mon	Vorpal Bunny
+116	mon	Nasty Little Gnome
+117	mon	Hobgoblin
+118	mon	Black Mamba
+119	mon	Grape Jelly
+120	mon	Master Yeek
+121	mon	Priest
+122	mon	Giant Clear Ant
+123	mon	Air Spirit
+124	mon	Skeleton Human
+125	mon	Human Zombie
+126	mon	Moaning Spirit
+127	mon	Swordsman
+128	mon	Killer Brown Beetle
+129	mon	Ogre
+130	mon	Giant Red Speckled Frog
+131	mon	Magic User
+132	mon	Black Orc
+133	mon	Giant Long-Eared Bat
+134	mon	Giant Gnat
+135	mon	Killer Green Beetle
+136	mon	Giant Flea
+137	mon	Giant White Dragon Fly
+138	mon	Hill Giant
+139	mon	Skeleton Hobgoblin
+140	mon	Flesh Golem
+141	mon	White Dragon Bat
+142	mon	Giant Black Louse
+143	mon	Guardian Naga
+144	mon	Giant Grey Bat
+145	mon	Giant Clear Centipede
+146	mon	Giant Yellow Tick
+147	mon	Giant Ebony Ant
+148	mon	Frost Giant
+149	mon	Clay Golem
+150	mon	Huge White Bat
+151	mon	Giant Tan Bat
+152	mon	Violet Mold
+153	mon	Umber Hulk
+154	mon	Gelatinous Cube
+155	mon	Giant Black Rat
+156	mon	Giant Green Dragon Fly
+157	mon	Fire Giant
+158	mon	Green Dragon Bat
+159	mon	Quasit
+160	mon	Troll
+161	mon	Water Spirit
+162	mon	Giant Brown Scorpion
+163	mon	Earth Spirit
+164	mon	Fire Spirit
+165	mon	Uruk-Hai Orc
+166	mon	Stone Giant
+167	mon	Stone Golem
+168	mon	Grey Ooze
+169	mon	Disenchanter Ooze
+170	mon	Giant Spotted Rat
+171	mon	Mummified Kobold
+172	mon	Killer Black Beetle
+173	mon	Red Mold
+174	mon	Quylthulg
+175	mon	Giant Red Bat
+176	mon	Giant Black Dragon Fly
+177	mon	Cloud Giant
+178	mon	Black Dragon Bat
+179	mon	Blue Dragon Bat
+180	mon	Mummified Orc
+181	mon	Killer Boring Beetle
+182	mon	Killer Stag Beetle
+183	mon	Black Mold
+184	mon	Iron Golem
+185	mon	Giant Yellow Scorpion
+186	mon	Green Ooze
+187	mon	Black Ooze
+188	mon	Warrior
+189	mon	Red Dragon Bat
+190	mon	Killer Blue Beetle
+191	mon	Giant Silver Ant
+192	mon	Crimson Mold
+193	mon	Forest Wight
+194	mon	Berzerker
+195	mon	Mummified Human
+196	mon	Banshee
+197	mon	Giant Troll
+198	mon	Giant Brown Tick
+199	mon	Killer Red Beetle
+200	mon	Wooden Mold
+201	mon	Giant Blue Dragon Fly
+202	mon	Giant Grey Ant Lion
+203	mon	Disenchanter Bat
+204	mon	Giant Fire Tick
+205	mon	White Wraith
+206	mon	Giant Black Scorpion
+207	mon	Clear Ooze
+208	mon	Killer Fire Beetle
+209	mon	Vampire
+210	mon	Giant Red Dragon Fly
+211	mon	Shimmering Mold
+212	mon	Black Knight
+213	mon	Mage
+214	mon	Ice Troll
+215	mon	Giant Purple Worm
+216	mon	Young Blue Dragon
+217	mon	Young White Dragon
+218	mon	Young Green Dragon
+219	mon	Giant Fire Bat
+220	mon	Giant Glowing Rat
+221	mon	Skeleton Troll
+222	mon	Giant Lightning Bat
+223	mon	Giant Static Ant
+224	mon	Grave Wight
+225	mon	Killer Slicer Beetle
+226	mon	Giant White Ant Lion
+227	mon	Ghost
+228	mon	Giant Black Ant Lion
+229	mon	Death Watch Beetle
+230	mon	Ogre Mage
+231	mon	Two-Headed Troll
+232	mon	Invisible Stalker
+233	mon	Giant Hunter Ant
+234	mon	Ninja
+235	mon	Barrow Wight
+236	mon	Skeleton 2-Headed Troll
+237	mon	Water Elemental
+238	mon	Fire Elemental
+239	mon	Lich
+240	mon	Master Vampire
+241	mon	Spirit Troll
+242	mon	Giant Red Scorpion
+243	mon	Earth Elemental
+244	mon	Young Black Dragon
+245	mon	Young Red Dragon
+246	mon	Necromancer
+247	mon	Mummified Troll
+248	mon	Giant Red Ant Lion
+249	mon	Mature White Dragon
+250	mon	Xorn
+251	mon	Giant Mottled Ant Lion
+252	mon	Grey Wraith
+253	mon	Young Multi-Hued Dragon
+254	mon	Mature Blue Dragon
+255	mon	Mature Green Dragon
+256	mon	Iridescent Beetle
+257	mon	King Vampire
+258	mon	King Lich
+259	mon	Mature Red Dragon
+260	mon	Mature Black Dragon
+261	mon	Mature Multi-Hued Dragon
+262	mon	Ancient White Dragon
+263	mon	Emperor Wight
+264	mon	Black Wraith
+265	mon	Nether Wraith
+266	mon	Sorcerer
+267	mon	Ancient Blue Dragon
+268	mon	Ancient Green Dragon
+269	mon	Ancient Black Dragon
+270	mon	Crystal Ooze
+271	mon	Disenchanter Worm
+272	mon	Rotting Quylthulg
+273	mon	Ancient Red Dragon
+274	mon	Death Quasit
+275	mon	Emperor Lich
+276	mon	Ancient Multi-Hued Dragon
+277	mon	Evil Iggy
+278	mon	Balrog
+279	obj	0	TV_FOOD	Poison
+280	obj	1	TV_FOOD	Blindness
+281	obj	2	TV_FOOD	Paranoia
+282	obj	3	TV_FOOD	Confusion
+283	obj	4	TV_FOOD	Hallucination
+284	obj	5	TV_FOOD	Cure Poison
+285	obj	6	TV_FOOD	Cure Blindness
+286	obj	7	TV_FOOD	Cure Paranoia
+287	obj	8	TV_FOOD	Cure Confusion
+288	obj	9	TV_FOOD	Weakness
+289	obj	10	TV_FOOD	Unhealth
+290	obj	11	TV_FOOD	Restore Constitution
+291	obj	12	TV_FOOD	First-Aid
+292	obj	13	TV_FOOD	Minor Cures
+293	obj	14	TV_FOOD	Light Cures
+294	obj	15	TV_FOOD	Restoration
+295	obj	16	TV_FOOD	Poison
+296	obj	17	TV_FOOD	Hallucination
+297	obj	18	TV_FOOD	Cure Poison
+298	obj	19	TV_FOOD	Unhealth
+299	obj	20	TV_FOOD	Major Cures
+300	obj	21	TV_FOOD	& Ration~ of Food
+301	obj	22	TV_FOOD	& Ration~ of Food
+302	obj	23	TV_FOOD	& Ration~ of Food
+303	obj	24	TV_FOOD	& Slime Mold~
+304	obj	25	TV_FOOD	& Piece~ of Elvish Waybread
+305	obj	26	TV_FOOD	& Piece~ of Elvish Waybread
+306	obj	27	TV_FOOD	& Piece~ of Elvish Waybread
+307	obj	28	TV_SWORD	& Dagger (Main Gauche)
+308	obj	29	TV_SWORD	& Dagger (Misericorde)
+309	obj	30	TV_SWORD	& Dagger (Stiletto)
+310	obj	31	TV_SWORD	& Dagger (Bodkin)
+311	obj	32	TV_SWORD	& Broken Dagger
+312	obj	33	TV_SWORD	& Backsword
+313	obj	34	TV_SWORD	& Bastard Sword
+314	obj	35	TV_SWORD	& Thrusting Sword (Bilbo)
+315	obj	36	TV_SWORD	& Thrusting Sword (Baselard)
+316	obj	37	TV_SWORD	& Broadsword
+317	obj	38	TV_SWORD	& Two-Handed Sword (Claymore)
+318	obj	39	TV_SWORD	& Cutlass
+319	obj	40	TV_SWORD	& Two-Handed Sword (Espadon)
+320	obj	41	TV_SWORD	& Executioner's Sword
+321	obj	42	TV_SWORD	& Two-Handed Sword (Flamberge)
+322	obj	43	TV_SWORD	& Foil
+323	obj	44	TV_SWORD	& Katana
+324	obj	45	TV_SWORD	& Longsword
+325	obj	46	TV_SWORD	& Two-Handed Sword (No-Dachi)
+326	obj	47	TV_SWORD	& Rapier
+327	obj	48	TV_SWORD	& Sabre
+328	obj	49	TV_SWORD	& Small Sword
+329	obj	50	TV_SWORD	& Two-Handed Sword (Zweihander)
+330	obj	51	TV_SWORD	& Broken Sword
+331	obj	52	TV_HAFTED	& Ball and Chain
+332	obj	53	TV_HAFTED	& Cat-o'-Nine-Tails
+333	obj	54	TV_HAFTED	& Wooden Club
+334	obj	55	TV_HAFTED	& Flail
+335	obj	56	TV_HAFTED	& Two-Handed Great Flail
+336	obj	57	TV_HAFTED	& Morningstar
+337	obj	58	TV_HAFTED	& Mace
+338	obj	59	TV_HAFTED	& War Hammer
+339	obj	60	TV_HAFTED	& Lead-Filled Mace
+340	obj	61	TV_POLEARM	& Awl-Pike
+341	obj	62	TV_POLEARM	& Beaked Axe
+342	obj	63	TV_POLEARM	& Fauchard
+343	obj	64	TV_POLEARM	& Glaive
+344	obj	65	TV_POLEARM	& Halberd
+345	obj	66	TV_POLEARM	& Lucerne Hammer
+346	obj	67	TV_POLEARM	& Pike
+347	obj	68	TV_POLEARM	& Spear
+348	obj	69	TV_POLEARM	& Lance
+349	obj	70	TV_POLEARM	& Javelin
+350	obj	71	TV_POLEARM	& Battle Axe (Balestarius)
+351	obj	72	TV_POLEARM	& Battle Axe (European)
+352	obj	73	TV_POLEARM	& Broad Axe
+353	obj	74	TV_BOW	& Short Bow
+354	obj	75	TV_BOW	& Long Bow
+355	obj	76	TV_BOW	& Composite Bow
+356	obj	77	TV_BOW	& Light Crossbow
+357	obj	78	TV_BOW	& Heavy Crossbow
+358	obj	79	TV_BOW	& Sling
+359	obj	80	TV_ARROW	& Arrow~
+360	obj	81	TV_BOLT	& Bolt~
+361	obj	82	TV_SLING_AMMO	& Rounded Pebble~
+362	obj	83	TV_SLING_AMMO	& Iron Shot~
+363	obj	84	TV_SPIKE	& Iron Spike~
+364	obj	85	TV_LIGHT	& Brass Lantern~
+365	obj	86	TV_LIGHT	& Wooden Torch~
+366	obj	87	TV_DIGGING	& Orcish Pick
+367	obj	88	TV_DIGGING	& Dwarven Pick
+368	obj	89	TV_DIGGING	& Gnomish Shovel
+369	obj	90	TV_DIGGING	& Dwarven Shovel
+370	obj	91	TV_BOOTS	& Pair of Soft Leather Shoes
+371	obj	92	TV_BOOTS	& Pair of Soft Leather Boots
+372	obj	93	TV_BOOTS	& Pair of Hard Leather Boots
+373	obj	94	TV_HELM	& Soft Leather Cap
+374	obj	95	TV_HELM	& Hard Leather Cap
+375	obj	96	TV_HELM	& Metal Cap
+376	obj	97	TV_HELM	& Iron Helm
+377	obj	98	TV_HELM	& Steel Helm
+378	obj	99	TV_HELM	& Silver Crown
+379	obj	100	TV_HELM	& Golden Crown
+380	obj	101	TV_HELM	& Jewel-Encrusted Crown
+381	obj	102	TV_SOFT_ARMOR	& Robe
+382	obj	103	TV_SOFT_ARMOR	Soft Leather Armor
+383	obj	104	TV_SOFT_ARMOR	Soft Studded Leather
+384	obj	105	TV_SOFT_ARMOR	Hard Leather Armor
+385	obj	106	TV_SOFT_ARMOR	Hard Studded Leather
+386	obj	107	TV_SOFT_ARMOR	Woven Cord Armor
+387	obj	108	TV_SOFT_ARMOR	Soft Leather Ring Mail
+388	obj	109	TV_SOFT_ARMOR	Hard Leather Ring Mail
+389	obj	110	TV_SOFT_ARMOR	Leather Scale Mail
+390	obj	111	TV_HARD_ARMOR	Metal Scale Mail
+391	obj	112	TV_HARD_ARMOR	Chain Mail
+392	obj	113	TV_HARD_ARMOR	Rusty Chain Mail
+393	obj	114	TV_HARD_ARMOR	Double Chain Mail
+394	obj	115	TV_HARD_ARMOR	Augmented Chain Mail
+395	obj	116	TV_HARD_ARMOR	Bar Chain Mail
+396	obj	117	TV_HARD_ARMOR	Metal Brigandine Armor
+397	obj	118	TV_HARD_ARMOR	Laminated Armor
+398	obj	119	TV_HARD_ARMOR	Partial Plate Armor
+399	obj	120	TV_HARD_ARMOR	Metal Lamellar Armor
+400	obj	121	TV_HARD_ARMOR	Full Plate Armor
+401	obj	122	TV_HARD_ARMOR	Ribbed Plate Armor
+402	obj	123	TV_CLOAK	& Cloak
+403	obj	124	TV_GLOVES	& Set of Leather Gloves
+404	obj	125	TV_GLOVES	& Set of Gauntlets
+405	obj	126	TV_SHIELD	& Small Leather Shield
+406	obj	127	TV_SHIELD	& Medium Leather Shield
+407	obj	128	TV_SHIELD	& Large Leather Shield
+408	obj	129	TV_SHIELD	& Small Metal Shield
+409	obj	130	TV_SHIELD	& Medium Metal Shield
+410	obj	131	TV_SHIELD	& Large Metal Shield
+411	obj	144	TV_ARROW	& Arrow~
+412	obj	170	TV_BOLT	& Bolt~
+413	obj	268	TV_FLASK	& Flask~ of Oil
+414	obj	318	TV_MAGIC_BOOK	[Beginners-Magick]
+415	obj	319	TV_MAGIC_BOOK	[Magick I]
+416	obj	320	TV_MAGIC_BOOK	[Magick II]
+417	obj	321	TV_MAGIC_BOOK	[The Mages' Guide to Power]
+418	obj	322	TV_PRAYER_BOOK	[Beginners Handbook]
+419	obj	323	TV_PRAYER_BOOK	[Words of Wisdom]
+420	obj	324	TV_PRAYER_BOOK	[Chants and Blessings]
+421	obj	325	TV_PRAYER_BOOK	[Exorcisms and Dispellings]
+422	obj	326	TV_CHEST	& Small Wooden Chest
+423	obj	327	TV_CHEST	& Large Wooden Chest
+424	obj	328	TV_CHEST	& Small Iron Chest
+425	obj	329	TV_CHEST	& Large Iron Chest
+426	obj	330	TV_CHEST	& Small Steel Chest
+427	obj	331	TV_CHEST	& Large Steel Chest
+428	obj	334	TV_SOFT_ARMOR	some Filthy Rags
+429	obj	344	TV_FOOD	& Ration~ of Food
+430	obj	345	TV_FOOD	& Hard Biscuit~
+431	obj	346	TV_FOOD	& Strip~ of Beef Jerky
+432	obj	347	TV_FOOD	& Pint~ of Fine Ale
+433	obj	348	TV_FOOD	& Pint~ of Fine Wine
+434	obj	349	TV_DIGGING	& Pick
+435	obj	350	TV_DIGGING	& Shovel
+436	obj	364	TV_LIGHT	& Brass Lantern~
+437	obj	365	TV_LIGHT	& Wooden Torch~
+438	obj	366	TV_FLASK	& Flask~ of Oil
+439	obj	367	TV_OPEN_DOOR	& open door
+440	obj	368	TV_CLOSED_DOOR	& closed door
+441	obj	370	TV_UP_STAIR	an up staircase
+442	obj	371	TV_DOWN_STAIR	a down staircase
+443	obj	372	TV_STORE_DOOR	General Store
+444	obj	373	TV_STORE_DOOR	Armory
+445	obj	374	TV_STORE_DOOR	Weapon Smiths
+446	obj	375	TV_STORE_DOOR	Temple
+447	obj	376	TV_STORE_DOOR	Alchemy Shop
+448	obj	377	TV_STORE_DOOR	Magic Shop
+449	obj	378	TV_VIS_TRAP	an open pit
+450	obj	379	TV_INVIS_TRAP	an arrow trap
+451	obj	380	TV_INVIS_TRAP	a covered pit
+452	obj	381	TV_INVIS_TRAP	a trap door
+453	obj	382	TV_INVIS_TRAP	a gas trap
+454	obj	383	TV_INVIS_TRAP	a loose rock
+455	obj	384	TV_INVIS_TRAP	a dart trap
+456	obj	385	TV_INVIS_TRAP	a strange rune
+457	obj	386	TV_INVIS_TRAP	some loose rock
+458	obj	387	TV_INVIS_TRAP	a gas trap
+459	obj	388	TV_INVIS_TRAP	a strange rune
+460	obj	389	TV_INVIS_TRAP	a blackened spot
+461	obj	390	TV_INVIS_TRAP	some corroded rock
+462	obj	391	TV_INVIS_TRAP	a gas trap
+463	obj	392	TV_INVIS_TRAP	a gas trap
+464	obj	393	TV_INVIS_TRAP	a gas trap
+465	obj	394	TV_INVIS_TRAP	a dart trap
+466	obj	395	TV_INVIS_TRAP	a dart trap
+467	obj	396	TV_RUBBLE	some rubble
+468	obj	397	TV_FOOD	& Pint~ of Fine Grade Mush
+469	obj	398	TV_VIS_TRAP	a strange rune
+470	obj	399	TV_GOLD	copper
+471	obj	400	TV_GOLD	copper
+472	obj	401	TV_GOLD	copper
+473	obj	402	TV_GOLD	silver
+474	obj	403	TV_GOLD	silver
+475	obj	404	TV_GOLD	silver
+476	obj	405	TV_GOLD	garnets
+477	obj	406	TV_GOLD	garnets
+478	obj	407	TV_GOLD	gold
+479	obj	408	TV_GOLD	gold
+480	obj	409	TV_GOLD	gold
+481	obj	410	TV_GOLD	opals
+482	obj	411	TV_GOLD	sapphires
+483	obj	412	TV_GOLD	gold
+484	obj	413	TV_GOLD	rubies
+485	obj	414	TV_GOLD	diamonds
+486	obj	415	TV_GOLD	emeralds
+487	obj	416	TV_GOLD	mithril
+488	obj	418	TV_CHEST	& ruined chest
+489	flv	potion	Icky Green
+490	flv	potion	Light Brown
+491	flv	potion	Clear
+492	flv	potion	Azure
+493	flv	potion	Blue
+494	flv	potion	Blue Speckled
+495	flv	potion	Black
+496	flv	potion	Brown
+497	flv	potion	Brown Speckled
+498	flv	potion	Bubbling
+499	flv	potion	Chartreuse
+500	flv	potion	Cloudy
+501	flv	potion	Copper Speckled
+502	flv	potion	Crimson
+503	flv	potion	Cyan
+504	flv	potion	Dark Blue
+505	flv	potion	Dark Green
+506	flv	potion	Dark Red
+507	flv	potion	Gold Speckled
+508	flv	potion	Green
+509	flv	potion	Green Speckled
+510	flv	potion	Grey
+511	flv	potion	Grey Speckled
+512	flv	potion	Hazy
+513	flv	potion	Indigo
+514	flv	potion	Light Blue
+515	flv	potion	Light Green
+516	flv	potion	Magenta
+517	flv	potion	Metallic Blue
+518	flv	potion	Metallic Red
+519	flv	potion	Metallic Green
+520	flv	potion	Metallic Purple
+521	flv	potion	Misty
+522	flv	potion	Orange
+523	flv	potion	Orange Speckled
+524	flv	potion	Pink
+525	flv	potion	Pink Speckled
+526	flv	potion	Puce
+527	flv	potion	Purple
+528	flv	potion	Purple Speckled
+529	flv	potion	Red
+530	flv	potion	Red Speckled
+531	flv	potion	Silver Speckled
+532	flv	potion	Smoky
+533	flv	potion	Tangerine
+534	flv	potion	Violet
+535	flv	potion	Vermilion
+536	flv	potion	White
+537	flv	potion	Yellow
+538	flv	ring	Alexandrite
+539	flv	ring	Amethyst
+540	flv	ring	Aquamarine
+541	flv	ring	Azurite
+542	flv	ring	Beryl
+543	flv	ring	Bloodstone
+544	flv	ring	Calcite
+545	flv	ring	Carnelian
+546	flv	ring	Corundum
+547	flv	ring	Diamond
+548	flv	ring	Emerald
+549	flv	ring	Fluorite
+550	flv	ring	Garnet
+551	flv	ring	Granite
+552	flv	ring	Jade
+553	flv	ring	Jasper
+554	flv	ring	Lapis Lazuli
+555	flv	ring	Malachite
+556	flv	ring	Marble
+557	flv	ring	Moonstone
+558	flv	ring	Onyx
+559	flv	ring	Opal
+560	flv	ring	Pearl
+561	flv	ring	Quartz
+562	flv	ring	Quartzite
+563	flv	ring	Rhodonite
+564	flv	ring	Ruby
+565	flv	ring	Sapphire
+566	flv	ring	Tiger Eye
+567	flv	ring	Topaz
+568	flv	ring	Turquoise
+569	flv	ring	Zircon
+570	flv	amulet	Amber
+571	flv	amulet	Driftwood
+572	flv	amulet	Coral
+573	flv	amulet	Agate
+574	flv	amulet	Ivory
+575	flv	amulet	Obsidian
+576	flv	amulet	Bone
+577	flv	amulet	Brass
+578	flv	amulet	Bronze
+579	flv	amulet	Pewter
+580	flv	amulet	Tortoise Shell
+581	flv	wand	Aluminum
+582	flv	wand	Cast Iron
+583	flv	wand	Chromium
+584	flv	wand	Copper
+585	flv	wand	Gold
+586	flv	wand	Iron
+587	flv	wand	Magnesium
+588	flv	wand	Molybdenum
+589	flv	wand	Nickel
+590	flv	wand	Rusty
+591	flv	wand	Silver
+592	flv	wand	Steel
+593	flv	wand	Tin
+594	flv	wand	Titanium
+595	flv	wand	Tungsten
+596	flv	wand	Zirconium
+597	flv	wand	Zinc
+598	flv	wand	Aluminum-Plated
+599	flv	wand	Copper-Plated
+600	flv	wand	Gold-Plated
+601	flv	wand	Nickel-Plated
+602	flv	wand	Silver-Plated
+603	flv	wand	Steel-Plated
+604	flv	wand	Tin-Plated
+605	flv	wand	Zinc-Plated
+606	flv	staff	Aspen
+607	flv	staff	Balsa
+608	flv	staff	Banyan
+609	flv	staff	Birch
+610	flv	staff	Cedar
+611	flv	staff	Cottonwood
+612	flv	staff	Cypress
+613	flv	staff	Dogwood
+614	flv	staff	Elm
+615	flv	staff	Eucalyptus
+616	flv	staff	Hemlock
+617	flv	staff	Hickory
+618	flv	staff	Ironwood
+619	flv	staff	Locust
+620	flv	staff	Mahogany
+621	flv	staff	Maple
+622	flv	staff	Mulberry
+623	flv	staff	Oak
+624	flv	staff	Pine
+625	flv	staff	Redwood
+626	flv	staff	Rosewood
+627	flv	staff	Spruce
+628	flv	staff	Sycamore
+629	flv	staff	Teak
+630	flv	staff	Walnut
+631	flv	mushroom	Blue
+632	flv	mushroom	Black
+633	flv	mushroom	Black Spotted
+634	flv	mushroom	Brown
+635	flv	mushroom	Dark Blue
+636	flv	mushroom	Dark Green
+637	flv	mushroom	Dark Red
+638	flv	mushroom	Ecru
+639	flv	mushroom	Furry
+640	flv	mushroom	Green
+641	flv	mushroom	Grey
+642	flv	mushroom	Light Blue
+643	flv	mushroom	Light Green
+644	flv	mushroom	Plaid
+645	flv	mushroom	Red
+646	flv	mushroom	Slimy
+647	flv	mushroom	Tan
+648	flv	mushroom	White
+649	flv	mushroom	White Spotted
+650	flv	mushroom	Wooden
+651	flv	mushroom	Wrinkled
+652	flv	mushroom	Yellow
+653	scroll	0
+654	scroll	1
+655	scroll	2
+656	scroll	3
+657	scroll	4
+658	scroll	5
+659	scroll	6
+660	scroll	7
+661	scroll	8
+662	scroll	9
+663	scroll	10
+664	scroll	11
+665	scroll	12
+666	scroll	13
+667	scroll	14
+668	scroll	15
+669	scroll	16
+670	scroll	17
+671	scroll	18
+672	scroll	19
+673	scroll	20
+674	scroll	21
+675	scroll	22
+676	scroll	23
+677	scroll	24
+678	scroll	25
+679	scroll	26
+680	scroll	27
+681	scroll	28
+682	scroll	29
+683	scroll	30
+684	scroll	31
+685	scroll	32
+686	scroll	33
+687	scroll	34
+688	scroll	35
+689	scroll	36
+690	scroll	37
+691	scroll	38
+692	scroll	39
+693	scroll	40
+694	scroll	41
+695	scroll	42
+696	scroll	43
+697	scroll	44
+698	scroll	45
+699	scroll	46
+700	scroll	47
+701	scroll	48
+702	scroll	49
+703	scroll	50
+704	player	Human	Warrior	Female
+705	player	Human	Warrior	Male
+706	player	Human	Mage	Female
+707	player	Human	Mage	Male
+708	player	Human	Priest	Female
+709	player	Human	Priest	Male
+710	player	Human	Rogue	Female
+711	player	Human	Rogue	Male
+712	player	Human	Ranger	Female
+713	player	Human	Ranger	Male
+714	player	Human	Paladin	Female
+715	player	Human	Paladin	Male
+716	player	Half-Elf	Warrior	Female
+717	player	Half-Elf	Warrior	Male
+718	player	Half-Elf	Mage	Female
+719	player	Half-Elf	Mage	Male
+720	player	Half-Elf	Priest	Female
+721	player	Half-Elf	Priest	Male
+722	player	Half-Elf	Rogue	Female
+723	player	Half-Elf	Rogue	Male
+724	player	Half-Elf	Ranger	Female
+725	player	Half-Elf	Ranger	Male
+726	player	Half-Elf	Paladin	Female
+727	player	Half-Elf	Paladin	Male
+728	player	Elf	Warrior	Female
+729	player	Elf	Warrior	Male
+730	player	Elf	Mage	Female
+731	player	Elf	Mage	Male
+732	player	Elf	Priest	Female
+733	player	Elf	Priest	Male
+734	player	Elf	Rogue	Female
+735	player	Elf	Rogue	Male
+736	player	Elf	Ranger	Female
+737	player	Elf	Ranger	Male
+738	player	Elf	Paladin	Female
+739	player	Elf	Paladin	Male
+740	player	Halfling	Warrior	Female
+741	player	Halfling	Warrior	Male
+742	player	Halfling	Mage	Female
+743	player	Halfling	Mage	Male
+744	player	Halfling	Priest	Female
+745	player	Halfling	Priest	Male
+746	player	Halfling	Rogue	Female
+747	player	Halfling	Rogue	Male
+748	player	Halfling	Ranger	Female
+749	player	Halfling	Ranger	Male
+750	player	Halfling	Paladin	Female
+751	player	Halfling	Paladin	Male
+752	player	Gnome	Warrior	Female
+753	player	Gnome	Warrior	Male
+754	player	Gnome	Mage	Female
+755	player	Gnome	Mage	Male
+756	player	Gnome	Priest	Female
+757	player	Gnome	Priest	Male
+758	player	Gnome	Rogue	Female
+759	player	Gnome	Rogue	Male
+760	player	Gnome	Ranger	Female
+761	player	Gnome	Ranger	Male
+762	player	Gnome	Paladin	Female
+763	player	Gnome	Paladin	Male
+764	player	Dwarf	Warrior	Female
+765	player	Dwarf	Warrior	Male
+766	player	Dwarf	Mage	Female
+767	player	Dwarf	Mage	Male
+768	player	Dwarf	Priest	Female
+769	player	Dwarf	Priest	Male
+770	player	Dwarf	Rogue	Female
+771	player	Dwarf	Rogue	Male
+772	player	Dwarf	Ranger	Female
+773	player	Dwarf	Ranger	Male
+774	player	Dwarf	Paladin	Female
+775	player	Dwarf	Paladin	Male
+776	player	Half-Orc	Warrior	Female
+777	player	Half-Orc	Warrior	Male
+778	player	Half-Orc	Mage	Female
+779	player	Half-Orc	Mage	Male
+780	player	Half-Orc	Priest	Female
+781	player	Half-Orc	Priest	Male
+782	player	Half-Orc	Rogue	Female
+783	player	Half-Orc	Rogue	Male
+784	player	Half-Orc	Ranger	Female
+785	player	Half-Orc	Ranger	Male
+786	player	Half-Orc	Paladin	Female
+787	player	Half-Orc	Paladin	Male
+788	player	Half-Troll	Warrior	Female
+789	player	Half-Troll	Warrior	Male
+790	player	Half-Troll	Mage	Female
+791	player	Half-Troll	Mage	Male
+792	player	Half-Troll	Priest	Female
+793	player	Half-Troll	Priest	Male
+794	player	Half-Troll	Rogue	Female
+795	player	Half-Troll	Rogue	Male
+796	player	Half-Troll	Ranger	Female
+797	player	Half-Troll	Ranger	Male
+798	player	Half-Troll	Paladin	Female
+799	player	Half-Troll	Paladin	Male
+800	tile	(26, 73)
+801	tile	(26, 74)
+802	tile	(22, 76)
+803	tile	(22, 77)
+804	tile	(22, 52)
+805	tile	(22, 53)
+806	tile	(22, 58)
+807	tile	(22, 59)
+808	tile	(22, 55)
+809	tile	(22, 56)
+810	tile	(22, 61)
+811	tile	(22, 62)
+812	tile	(25, 1)
+813	tile	(25, 2)
+814	tile	(26, 111)
+815	tile	(26, 112)
+816	tile	(26, 114)
+817	tile	(26, 115)
+818	tile	(12, 53)
+819	tile	(12, 54)
+820	pad	820
+821	pad	821
+822	pad	822
+823	pad	823
+824	pad	824
+825	pad	825
+826	pad	826
+827	pad	827
+828	pad	828
+829	pad	829
+830	pad	830
+831	pad	831
+832	floor	room	lit	0
+833	floor	room	lit	1
+834	floor	room	lit	2
+835	floor	room	lit	3
+836	floor	room	lit	4
+837	floor	room	lit	5
+838	floor	room	lit	6
+839	floor	room	lit	7
+840	floor	room	lit	8
+841	floor	room	lit	9
+842	floor	room	lit	10
+843	floor	room	lit	11
+844	floor	room	lit	12
+845	floor	room	lit	13
+846	floor	room	lit	14
+847	floor	room	lit	15
+848	floor	room	dark	0
+849	floor	room	dark	1
+850	floor	room	dark	2
+851	floor	room	dark	3
+852	floor	room	dark	4
+853	floor	room	dark	5
+854	floor	room	dark	6
+855	floor	room	dark	7
+856	floor	room	dark	8
+857	floor	room	dark	9
+858	floor	room	dark	10
+859	floor	room	dark	11
+860	floor	room	dark	12
+861	floor	room	dark	13
+862	floor	room	dark	14
+863	floor	room	dark	15
+864	floor	corr	lit	0
+865	floor	corr	lit	1
+866	floor	corr	lit	2
+867	floor	corr	lit	3
+868	floor	corr	lit	4
+869	floor	corr	lit	5
+870	floor	corr	lit	6
+871	floor	corr	lit	7
+872	floor	corr	lit	8
+873	floor	corr	lit	9
+874	floor	corr	lit	10
+875	floor	corr	lit	11
+876	floor	corr	lit	12
+877	floor	corr	lit	13
+878	floor	corr	lit	14
+879	floor	corr	lit	15
+880	floor	corr	dark	0
+881	floor	corr	dark	1
+882	floor	corr	dark	2
+883	floor	corr	dark	3
+884	floor	corr	dark	4
+885	floor	corr	dark	5
+886	floor	corr	dark	6
+887	floor	corr	dark	7
+888	floor	corr	dark	8
+889	floor	corr	dark	9
+890	floor	corr	dark	10
+891	floor	corr	dark	11
+892	floor	corr	dark	12
+893	floor	corr	dark	13
+894	floor	corr	dark	14
+895	floor	corr	dark	15
+896	floor	town	lit	0
+897	floor	town	lit	1
+898	floor	town	lit	2
+899	floor	town	lit	3
+900	floor	town	lit	4
+901	floor	town	lit	5
+902	floor	town	lit	6
+903	floor	town	lit	7
+904	floor	town	lit	8
+905	floor	town	lit	9
+906	floor	town	lit	10
+907	floor	town	lit	11
+908	floor	town	lit	12
+909	floor	town	lit	13
+910	floor	town	lit	14
+911	floor	town	lit	15
+912	floor	town	dark	0
+913	floor	town	dark	1
+914	floor	town	dark	2
+915	floor	town	dark	3
+916	floor	town	dark	4
+917	floor	town	dark	5
+918	floor	town	dark	6
+919	floor	town	dark	7
+920	floor	town	dark	8
+921	floor	town	dark	9
+922	floor	town	dark	10
+923	floor	town	dark	11
+924	floor	town	dark	12
+925	floor	town	dark	13
+926	floor	town	dark	14
+927	floor	town	dark	15
+928	wall	GRANITE	lit	0
+929	wall	GRANITE	lit	1
+930	wall	GRANITE	lit	2
+931	wall	GRANITE	lit	3
+932	wall	GRANITE	lit	4
+933	wall	GRANITE	lit	5
+934	wall	GRANITE	lit	6
+935	wall	GRANITE	lit	7
+936	wall	GRANITE	lit	8
+937	wall	GRANITE	lit	9
+938	wall	GRANITE	lit	10
+939	wall	GRANITE	lit	11
+940	wall	GRANITE	lit	12
+941	wall	GRANITE	lit	13
+942	wall	GRANITE	lit	14
+943	wall	GRANITE	lit	15
+944	wall	GRANITE	dark	0
+945	wall	GRANITE	dark	1
+946	wall	GRANITE	dark	2
+947	wall	GRANITE	dark	3
+948	wall	GRANITE	dark	4
+949	wall	GRANITE	dark	5
+950	wall	GRANITE	dark	6
+951	wall	GRANITE	dark	7
+952	wall	GRANITE	dark	8
+953	wall	GRANITE	dark	9
+954	wall	GRANITE	dark	10
+955	wall	GRANITE	dark	11
+956	wall	GRANITE	dark	12
+957	wall	GRANITE	dark	13
+958	wall	GRANITE	dark	14
+959	wall	GRANITE	dark	15
+960	wall	MAGMA	lit	0
+961	wall	MAGMA	lit	1
+962	wall	MAGMA	lit	2
+963	wall	MAGMA	lit	3
+964	wall	MAGMA	lit	4
+965	wall	MAGMA	lit	5
+966	wall	MAGMA	lit	6
+967	wall	MAGMA	lit	7
+968	wall	MAGMA	lit	8
+969	wall	MAGMA	lit	9
+970	wall	MAGMA	lit	10
+971	wall	MAGMA	lit	11
+972	wall	MAGMA	lit	12
+973	wall	MAGMA	lit	13
+974	wall	MAGMA	lit	14
+975	wall	MAGMA	lit	15
+976	wall	MAGMA	dark	0
+977	wall	MAGMA	dark	1
+978	wall	MAGMA	dark	2
+979	wall	MAGMA	dark	3
+980	wall	MAGMA	dark	4
+981	wall	MAGMA	dark	5
+982	wall	MAGMA	dark	6
+983	wall	MAGMA	dark	7
+984	wall	MAGMA	dark	8
+985	wall	MAGMA	dark	9
+986	wall	MAGMA	dark	10
+987	wall	MAGMA	dark	11
+988	wall	MAGMA	dark	12
+989	wall	MAGMA	dark	13
+990	wall	MAGMA	dark	14
+991	wall	MAGMA	dark	15
+992	wall	QUARTZ	lit	0
+993	wall	QUARTZ	lit	1
+994	wall	QUARTZ	lit	2
+995	wall	QUARTZ	lit	3
+996	wall	QUARTZ	lit	4
+997	wall	QUARTZ	lit	5
+998	wall	QUARTZ	lit	6
+999	wall	QUARTZ	lit	7
+1000	wall	QUARTZ	lit	8
+1001	wall	QUARTZ	lit	9
+1002	wall	QUARTZ	lit	10
+1003	wall	QUARTZ	lit	11
+1004	wall	QUARTZ	lit	12
+1005	wall	QUARTZ	lit	13
+1006	wall	QUARTZ	lit	14
+1007	wall	QUARTZ	lit	15
+1008	wall	QUARTZ	dark	0
+1009	wall	QUARTZ	dark	1
+1010	wall	QUARTZ	dark	2
+1011	wall	QUARTZ	dark	3
+1012	wall	QUARTZ	dark	4
+1013	wall	QUARTZ	dark	5
+1014	wall	QUARTZ	dark	6
+1015	wall	QUARTZ	dark	7
+1016	wall	QUARTZ	dark	8
+1017	wall	QUARTZ	dark	9
+1018	wall	QUARTZ	dark	10
+1019	wall	QUARTZ	dark	11
+1020	wall	QUARTZ	dark	12
+1021	wall	QUARTZ	dark	13
+1022	wall	QUARTZ	dark	14
+1023	wall	QUARTZ	dark	15
+1024	wall	PERM	lit	0
+1025	wall	PERM	lit	1
+1026	wall	PERM	lit	2
+1027	wall	PERM	lit	3
+1028	wall	PERM	lit	4
+1029	wall	PERM	lit	5
+1030	wall	PERM	lit	6
+1031	wall	PERM	lit	7
+1032	wall	PERM	lit	8
+1033	wall	PERM	lit	9
+1034	wall	PERM	lit	10
+1035	wall	PERM	lit	11
+1036	wall	PERM	lit	12
+1037	wall	PERM	lit	13
+1038	wall	PERM	lit	14
+1039	wall	PERM	lit	15
+1040	wall	PERM	dark	0
+1041	wall	PERM	dark	1
+1042	wall	PERM	dark	2
+1043	wall	PERM	dark	3
+1044	wall	PERM	dark	4
+1045	wall	PERM	dark	5
+1046	wall	PERM	dark	6
+1047	wall	PERM	dark	7
+1048	wall	PERM	dark	8
+1049	wall	PERM	dark	9
+1050	wall	PERM	dark	10
+1051	wall	PERM	dark	11
+1052	wall	PERM	dark	12
+1053	wall	PERM	dark	13
+1054	wall	PERM	dark	14
+1055	wall	PERM	dark	15

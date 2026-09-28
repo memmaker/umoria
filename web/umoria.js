@@ -10,7 +10,7 @@
 	var WIN = ['map', 'stat', 'msg', 'inv'];          /* pane -> window id */
 	var DIR = '/umoria/save';                         /* IDBFS mount: save, scores, layout */
 	var SAVE = DIR + '/game.sav', LAYOUT_FILE = DIR + '/web-layout.json';
-	var SRC = 64;                                     /* Shockbolt tiles in tiles.png */
+	var SRC = 64;                                     /* sheet slot size: 64 Shockbolt, 16 DawnLike (set on load) */
 	var MAP_COLS = 66, MAP_ROWS = 22, STAT_COLS = 14;
 	var FONT = '"DejaVu Sans Mono", Menlo, Consolas, "Liberation Mono", monospace';
 	var FG = '#dcdcdc', BG = '#000';
@@ -91,8 +91,9 @@
 		c.fillStyle = inv ? FG : BG;
 		c.fillRect(px, py, T.cw, T.ch);
 		if (t >= 0 && tilesReady) {
-			if (u >= 0) c.drawImage(tiles, (u % 32) * SRC, ((u / 32) | 0) * SRC, SRC, SRC, px, py, T.cw, T.ch);
-			c.drawImage(tiles, (t % 32) * SRC, ((t / 32) | 0) * SRC, SRC, SRC, px, py, T.cw, T.ch);
+			var im = p === P_MAP && frame && anim ? tiles1 : tiles;   /* DawnLike's 2nd frame */
+			if (u >= 0) c.drawImage(im, (u % 32) * SRC, ((u / 32) | 0) * SRC, SRC, SRC, px, py, T.cw, T.ch);
+			c.drawImage(im, (t % 32) * SRC, ((t / 32) | 0) * SRC, SRC, SRC, px, py, T.cw, T.ch);
 			return;
 		}
 		var ic = p === P_INV && T.rowIcon ? T.rowIcon[y] : -1;
@@ -420,14 +421,42 @@
 		onAbort: function (what) { app.crashed(what); }
 	};
 	function tilesFinished(ok) {
+		if (ok) SRC = tiles.naturalWidth / 32;
 		tilesReady = ok; tilesDone = true;
 		if (!ok) status('Could not load the tile set; using text.', true);
 		if (tilesWait) Module.removeRunDependency('tiles');
 	}
 	tiles.onload = function () { tilesFinished(true); };
 	tiles.onerror = function () { tilesFinished(false); };
-	/* tile sets: Shockbolt or none (text); the choice is a per-browser preference */
-	var TILESETS = [['tiles.png', 'Shockbolt'], [null, 'None']], tileset = 0;
+	/* tile sets: same slot layout (port/mktiles.py, port/mkdawn.py); the choice is a per-browser preference */
+	var TILESETS = [['tiles.png', 'Shockbolt'], ['tiles-dawn.png', 'DawnLike'], ['tiles-dawn.png', 'DawnLike|a', 'tiles-dawn-1.png'], [null, 'None']], tileset = 0;
+	/* animation (opt-in, "DawnLike|a"): the map swaps to the frame-1 sheet
+	 * (port/mkdawn.py) twice a second, redrawing only cells whose sprite has
+	 * a different 2nd frame (anim[slot], found by comparing the two sheets) */
+	var tiles1 = new Image(), frame = 0, anim = null;
+	function loadFrame1() { frame = 0; anim = null; if (TILESETS[tileset][2]) tiles1.src = TILESETS[tileset][2]; else tiles1.removeAttribute('src'); }
+	function pixels(im) {
+		var c = document.createElement('canvas'); c.width = im.naturalWidth; c.height = im.naturalHeight;
+		var x = c.getContext('2d'); x.drawImage(im, 0, 0); return x.getImageData(0, 0, c.width, c.height).data;
+	}
+	function findAnim() {
+		if (!tilesReady || !tiles1.naturalWidth || tiles.naturalWidth !== tiles1.naturalWidth) return;
+		var a = pixels(tiles), b = pixels(tiles1), W = tiles.naturalWidth, n = (W / 16) * (tiles.naturalHeight / 16);
+		anim = new Uint8Array(n);
+		for (var s = 0; s < n; s++)
+			for (var y = 0, x0 = (s % (W / 16)) * 16, y0 = ((s / (W / 16)) | 0) * 16; y < 16 && !anim[s]; y++)
+				for (var i = ((y0 + y) * W + x0) * 4, e = i + 64; i < e; i++) if (a[i] !== b[i]) { anim[s] = 1; break; }
+	}
+	tiles1.onload = findAnim;
+	setInterval(function () {
+		var T = panes[P_MAP];
+		if (!T || !tilesReady || !TILESETS[tileset][2] || document.hidden) return;
+		if (!anim) findAnim();
+		if (!anim) return;
+		frame ^= 1;
+		for (var i = 0; i < T.cols * T.rows; i++) if (anim[T.t[i]] || anim[T.u[i]]) draw(P_MAP, (i / T.cols) | 0, i % T.cols);
+		drawCursor();
+	}, 500);
 	try { tileset = +localStorage.getItem('tileset') % TILESETS.length || 0; } catch (err) { /* no storage */ }
 	function renderTileset() { var b = $('btn-tiles'); if (b) b.textContent = 'Tiles: ' + TILESETS[tileset][1]; }
 	function toggleTileset() {
@@ -442,9 +471,10 @@
 			applyDom();
 		};
 		renderMapSel();
+		loadFrame1();
 		if (!TILESETS[tileset][0]) { tilesReady = false; redraw(); return; }   /* text mode */
 		/* a sheet that loads late must not turn tiles back on after None */
-		tiles.onload = function () { if (TILESETS[tileset][0]) { tilesReady = true; redraw(); } };
+		tiles.onload = function () { if (TILESETS[tileset][0]) { SRC = tiles.naturalWidth / 32; tilesReady = true; redraw(); } };
 		tiles.src = TILESETS[tileset][0];
 	}
 	/* map font chooser: on the Map title bar (shown on hover), text mode only */
@@ -465,7 +495,7 @@
 		var ff = new FontFace(n, 'url(../fonts/' + n + '.woff)');
 		ff.load().then(function () { document.fonts.add(ff); redraw(); }).catch(function () { status('Could not load the font ' + n + '.', true); });
 	}
-	/* Visible window icon: the 64 px tile as a 16 px CSS sprite */
+	/* Visible window icon: the sheet's tile as a 16 px CSS sprite */
 	function visIcon(t) {
 		if (!tilesReady || !(t >= 0)) return null;
 		var s = document.createElement('i'), k = 16 / SRC;
@@ -475,6 +505,7 @@
 		return s;
 	}
 	if (TILESETS[tileset][0]) tiles.src = TILESETS[tileset][0]; else tilesDone = true;
+	loadFrame1();
 
 	/* autosave: every 2 minutes and when the page is hidden */
 	setInterval(function () { saveReq = true; }, 120000);

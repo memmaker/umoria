@@ -124,3 +124,8 @@ In 2007 Ben Asselstine and Ben Shadwick started the
 UMoria 5.5.2 under GPL-2 by obtaining permission from all the contributing
 authors. A year later they succeeded in their goal and in late 2008 official
 maintainer David Grabiner released Umoria 5.6 under a GPL-3.0-or-later license.
+
+The web port's map tiles are Shockbolt's (from Angband 4.2) or, switchable,
+DawnLike by DragonDePlatino with DawnBringer's palette (CC BY 4.0), sprites
+picked by name via Tommy Ettinger's DawnLikeAtlas; see
+`port/dawnlike/CREDITS.txt`.
