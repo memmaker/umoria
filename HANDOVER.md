@@ -14,10 +14,17 @@
 
 ## DawnLike tiles (2026-09-28)
 
-- Tiles button: Shockbolt → DawnLike → DawnLike|a (animated) → None; same slot
-  layout. `port/mktiles.py` gives every creature/object/flavour/player its own
-  slot and writes `port/slots.tsv`; `port/mkdawn.py` reads that and builds
-  `port/tiles-dawn.png` / `tiles-dawn-1.png` (hand table `MON` for stand-ins).
+- Tiles button: Shockbolt → Gervais → DawnLike → DawnLike|a (animated) → Amiga →
+  None (stored by name); one slot layout. `port/mktiles.py` gives every
+  creature/object/flavour/player/terrain its own slot, writes `port/slots.tsv`
+  and builds Shockbolt `tiles.png` + Gervais `tiles-gervais.png`: exact Angband
+  4.2 name, else (Gervais) the Angband 3.0.9 drawing (`port/gervais30.tsv`,
+  `port/mkgervais30.py`), else the hand tables `MON`/`OBJ`/`FLV`/`MUSH`;
+  nothing is guessed (a missing tile stops the script). `port/mkdawn.py` builds
+  `port/tiles-dawn.png` / `tiles-dawn-1.png` (hand table `MON` for stand-ins);
+  `port/mkamiga.py` builds `tiles-amiga.png` from `port/amiga` (Amiga Moria 1.2:
+  one picture per monster letter and object group, no stand-ins).
+- Order after a layout change: `mktiles.py`, then `mkdawn.py` and `mkamiga.py`.
 - Autotiles (`port/tiles.cpp` `floor_tile`): floors are `base + mask` of
   bordered sides from the real level (room tile, corridor dirt, town grass;
   day/night = lit/dark); walls connect only to walls that border open ground

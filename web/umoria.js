@@ -10,7 +10,7 @@
 	var WIN = ['map', 'stat', 'msg', 'inv'];          /* pane -> window id */
 	var DIR = '/umoria/save';                         /* IDBFS mount: save, scores, layout */
 	var SAVE = DIR + '/game.sav', LAYOUT_FILE = DIR + '/web-layout.json';
-	var SRC = 64;                                     /* sheet slot size: 64 Shockbolt, 16 DawnLike (set on load) */
+	var SRC = 64;                                     /* sheet slot size: 64 Shockbolt, 32 Gervais, 16 DawnLike, 40 Amiga (set on load) */
 	var MAP_COLS = 66, MAP_ROWS = 22, STAT_COLS = 14;
 	var FONT = '"DejaVu Sans Mono", Menlo, Consolas, "Liberation Mono", monospace';
 	var FG = '#dcdcdc', BG = '#000';
@@ -429,7 +429,8 @@
 	tiles.onload = function () { tilesFinished(true); };
 	tiles.onerror = function () { tilesFinished(false); };
 	/* tile sets: same slot layout (port/mktiles.py, port/mkdawn.py); the choice is a per-browser preference */
-	var TILESETS = [['tiles.png', 'Shockbolt'], ['tiles-dawn.png', 'DawnLike'], ['tiles-dawn.png', 'DawnLike|a', 'tiles-dawn-1.png'], [null, 'None']], tileset = 0;
+	var TILESETS = [['tiles.png', 'Shockbolt'], ['tiles-gervais.png', 'Gervais'], ['tiles-dawn.png', 'DawnLike'], ['tiles-dawn.png', 'DawnLike|a', 'tiles-dawn-1.png'],
+		['tiles-amiga.png', 'Amiga'], [null, 'None']], tileset = 0;
 	/* animation (opt-in, "DawnLike|a"): the map swaps to the frame-1 sheet
 	 * (port/mkdawn.py) twice a second, redrawing only cells whose sprite has
 	 * a different 2nd frame (anim[slot], found by comparing the two sheets) */

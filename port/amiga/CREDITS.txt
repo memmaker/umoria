@@ -1,0 +1,5 @@
+Amiga Moria 1.2 graphics (moria_gfx.png, decoded from moria_gfx.iff)
+by Henrik Harmsen, 1992: "Graphic UMoria 5.5 for the Amiga".
+Released under the GNU GPL v3: https://github.com/suncore/Amiga-Moria
+Symbol and object tables (amiga.tsv) extracted from its amiga_corrlist.c and
+treasure.c by extract.py.

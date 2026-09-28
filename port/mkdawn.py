@@ -95,6 +95,10 @@ MON = {  # Umoria creature -> DawnLike name, where they differ (stand-ins)
  'Emperor Lich': 'demilich', 'Ancient Multi-Hued Dragon': 'kingwyrm', 'Evil Iggy': 'wizard of yendor',
 }
 OBJ = {  # Umoria object (without '& ' and '~') -> DawnLike
+ 'Human Skeleton': 'bones', 'Dwarf Skeleton': 'bones', 'Elf Skeleton': 'bones', 'Gnome Skeleton': 'old bones',
+ 'Rat Skeleton': 'old bones', 'Giant Centipede Skeleton': 'old bones', 'large broken bone': 'old bones',
+ 'broken set of teeth': 'old skull', 'empty bottle': 'bottle', 'some shards of pottery': 'shards a',
+ 'broken stick': 'club',
  'Ration of Food': 'food ration', 'Slime Mold': 'slime mold', 'Piece of Elvish Waybread': 'lembas wafer',
  'Hard Biscuit': 'k ration', 'Strip of Beef Jerky': 'strip of meat', 'Pint of Fine Ale': 'tin coffee cup',
  'Pint of Fine Wine': 'closed keg', 'Pint of Fine Grade Mush': 'c ration',

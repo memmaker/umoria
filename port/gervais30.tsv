@@ -1,0 +1,42 @@
+# kind	Umoria name	row	col  (Gervais 32x32 cells from Angband 3.0.9 graf-dvg.prf; port/mkgervais30.py)
+mon	Large Brown Snake	16	18
+mon	Novice Warrior	4	8
+mon	Novice Rogue	4	9
+mon	Novice Priest	4	7
+mon	Novice Mage	4	6
+mon	Jackal	16	49
+mon	Brown Yeek	15	57
+mon	Bandit	4	13
+mon	Swordsman	4	16
+mon	Black Orc	18	26
+mon	Giant Brown Tick	15	43
+mon	Ice Troll	18	50
+mon	Ninja	4	23
+obj	& Broken Dagger	10	1
+obj	& Sabre	10	7
+obj	& Small Sword	10	6
+obj	& Broken Sword	10	2
+obj	& Iron Spike~	7	24
+obj	& Orcish Pick	7	28
+obj	& Dwarven Pick	7	29
+obj	& Gnomish Shovel	7	31
+obj	& Dwarven Shovel	7	32
+obj	& Pair of Hard Leather Boots	0	21
+obj	Soft Studded Leather	0	39
+obj	Hard Studded Leather	0	41
+obj	Rusty Chain Mail	0	44
+obj	Double Chain Mail	0	46
+obj	& Small Leather Shield	0	90
+obj	& Rat Skeleton	7	50
+obj	& Giant Centipede Skeleton	7	44
+obj	some Filthy Rags	0	33
+obj	& empty bottle	7	22
+obj	some shards of pottery	7	34
+obj	& Human Skeleton	7	45
+obj	& Dwarf Skeleton	7	47
+obj	& Elf Skeleton	7	46
+obj	& Gnome Skeleton	7	48
+obj	& broken set of teeth	7	43
+obj	& large broken bone	7	44
+obj	& broken stick	7	42
+obj	& ruined chest	7	6

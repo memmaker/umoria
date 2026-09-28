@@ -126,6 +126,8 @@ authors. A year later they succeeded in their goal and in late 2008 official
 maintainer David Grabiner released Umoria 5.6 under a GPL-3.0-or-later license.
 
 The web port's map tiles are Shockbolt's (from Angband 4.2) or, switchable,
+David Gervais's 32x32 tiles (from Angband 4.2 and 3.0.9, CC BY 3.0),
 DawnLike by DragonDePlatino with DawnBringer's palette (CC BY 4.0), sprites
-picked by name via Tommy Ettinger's DawnLikeAtlas; see
-`port/dawnlike/CREDITS.txt`.
+picked by name via Tommy Ettinger's DawnLikeAtlas (see
+`port/dawnlike/CREDITS.txt`), or Henrik Harmsen's Amiga Moria 1.2 graphics
+(1992, GPL-3; see `port/amiga/CREDITS.txt`).

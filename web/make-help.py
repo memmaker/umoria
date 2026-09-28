@@ -88,7 +88,10 @@ parts.append(section('web', 'Playing in the browser', WEB))
 # RVIP: About this version (rogue2wasm.md: Source and changes)
 parts.append('<h2 id="h-version">About this version</h2><ul>'
              '<li>Based on <strong>Umoria 5.7.15</strong>.</li>'
-             '<li>Tiles: Shockbolt (from Angband 4.2, default) or <strong>DawnLike</strong> by DragonDePlatino with DawnBringer\'s palette (CC BY 4.0), sprites picked by name via Tommy Ettinger\'s <a href="https://github.com/tommyettinger/DawnLikeAtlas" target="_blank" rel="noopener">DawnLikeAtlas</a>; switch with the <em>Tiles</em> button (<em>DawnLike|a</em>: animated monsters).</li>'
+             '<li>Tiles: Shockbolt (from Angband 4.2, default), <strong>Gervais</strong> (David Gervais\'s 32x32 tiles from Angband 4.2 and 3.0.9, CC BY 3.0), '
+             '<strong>DawnLike</strong> by DragonDePlatino with DawnBringer\'s palette (CC BY 4.0), sprites picked by name via Tommy Ettinger\'s <a href="https://github.com/tommyettinger/DawnLikeAtlas" target="_blank" rel="noopener">DawnLikeAtlas</a>, '
+             'or <strong>Amiga</strong>: the pictures of Henrik Harmsen\'s <a href="https://github.com/suncore/Amiga-Moria" target="_blank" rel="noopener">Amiga Moria 1.2</a> (1992, GPL-3), one per monster letter and object group; '
+             'switch with the <em>Tiles</em> button (<em>DawnLike|a</em>: animated monsters).</li>'
              '<li>Original source: <a href="https://github.com/dungeons-of-moria/umoria/tree/3bf8abc" target="_blank" rel="noopener">dungeons-of-moria/umoria, commit 3bf8abc</a></li>'
              '<li>Our changes (port, auto-explore, command menu, web build): '
              '<a href="https://github.com/memmaker/umoria/compare/3bf8abc...master" target="_blank" rel="noopener">memmaker/umoria</a></li></ul>')

@@ -1,0 +1,650 @@
+# Amiga Moria 1.2 (port/amiga/extract.py): gfx code row col | obj name code
+gfx	1	0	31
+gfx	2	1	31
+gfx	3	2	31
+gfx	4	3	31
+gfx	5	4	31
+gfx	6	5	31
+gfx	7	6	31
+gfx	8	6	32
+gfx	9	5	32
+gfx	10	0	32
+gfx	11	1	32
+gfx	12	0	33
+gfx	13	1	33
+gfx	14	2	32
+gfx	15	3	32
+gfx	16	4	32
+gfx	17	0	30
+gfx	32	1	21
+gfx	33	4	12
+gfx	34	5	12
+gfx	35	2	13
+gfx	36	0	13
+gfx	37	0	20
+gfx	38	4	13
+gfx	39	0	14
+gfx	40	4	20
+gfx	41	5	19
+gfx	42	1	13
+gfx	43	2	14
+gfx	44	2	16
+gfx	45	0	1
+gfx	46	1	20
+gfx	47	6	8
+gfx	49	1	0
+gfx	50	0	0
+gfx	51	5	0
+gfx	52	2	0
+gfx	53	3	0
+gfx	54	4	0
+gfx	58	4	1
+gfx	59	3	26
+gfx	60	6	0
+gfx	61	1	1
+gfx	62	3	18
+gfx	63	2	1
+gfx	64	2	10
+gfx	65	0	2
+gfx	66	1	2
+gfx	67	2	2
+gfx	68	3	2
+gfx	69	4	2
+gfx	70	2	3
+gfx	71	3	3
+gfx	72	4	3
+gfx	73	5	3
+gfx	74	0	4
+gfx	75	1	4
+gfx	76	2	4
+gfx	77	3	4
+gfx	79	4	4
+gfx	80	5	4
+gfx	81	0	5
+gfx	82	1	5
+gfx	83	2	5
+gfx	84	3	5
+gfx	85	4	5
+gfx	86	5	5
+gfx	87	0	6
+gfx	88	1	6
+gfx	89	3	11
+gfx	91	6	20
+gfx	92	6	10
+gfx	94	5	1
+gfx	95	3	1
+gfx	97	2	6
+gfx	98	1	7
+gfx	99	2	7
+gfx	100	3	7
+gfx	101	5	7
+gfx	102	3	6
+gfx	103	4	6
+gfx	104	5	6
+gfx	105	0	8
+gfx	106	1	8
+gfx	107	2	8
+gfx	108	3	8
+gfx	109	2	19
+gfx	110	5	8
+gfx	111	0	9
+gfx	112	0	10
+gfx	113	3	10
+gfx	114	4	10
+gfx	115	5	10
+gfx	116	3	20
+gfx	119	1	11
+gfx	121	2	20
+gfx	122	2	11
+gfx	123	5	15
+gfx	124	6	6
+gfx	125	4	16
+gfx	126	1	0
+gfx	128	0	7
+gfx	129	5	2
+gfx	130	0	3
+gfx	131	1	3
+gfx	132	4	7
+gfx	133	4	9
+gfx	134	2	21
+gfx	135	1	9
+gfx	136	3	21
+gfx	137	4	21
+gfx	138	5	9
+gfx	139	5	21
+gfx	140	0	10
+gfx	141	6	21
+gfx	142	4	21
+gfx	143	0	22
+gfx	144	1	22
+gfx	145	2	22
+gfx	146	3	22
+gfx	147	5	22
+gfx	148	4	22
+gfx	149	6	22
+gfx	150	0	23
+gfx	151	1	23
+gfx	152	2	23
+gfx	153	3	23
+gfx	154	4	23
+gfx	155	1	22
+gfx	156	5	23
+gfx	157	2	12
+gfx	158	3	12
+gfx	159	4	11
+gfx	160	5	11
+gfx	161	0	24
+gfx	162	0	12
+gfx	163	1	12
+gfx	164	3	13
+gfx	165	4	13
+gfx	166	5	13
+gfx	167	1	24
+gfx	168	2	24
+gfx	169	4	20
+gfx	170	6	20
+gfx	171	0	21
+gfx	172	1	16
+gfx	173	1	17
+gfx	174	1	18
+gfx	175	1	19
+gfx	176	5	18
+gfx	177	5	19
+gfx	178	5	20
+gfx	179	2	16
+gfx	180	2	17
+gfx	181	2	18
+gfx	182	2	19
+gfx	183	3	24
+gfx	184	4	15
+gfx	185	4	16
+gfx	186	4	17
+gfx	187	4	18
+gfx	188	4	24
+gfx	189	5	15
+gfx	190	5	16
+gfx	191	5	17
+gfx	192	6	1
+gfx	193	6	2
+gfx	194	6	3
+gfx	195	6	4
+gfx	196	6	5
+gfx	197	6	6
+gfx	198	6	7
+gfx	199	6	8
+gfx	200	6	9
+gfx	201	6	24
+gfx	202	6	11
+gfx	203	6	12
+gfx	204	5	24
+gfx	205	6	10
+gfx	206	6	13
+gfx	207	6	15
+gfx	208	6	17
+gfx	209	6	14
+gfx	210	6	16
+gfx	211	3	17
+gfx	212	0	25
+gfx	213	1	25
+gfx	214	2	25
+gfx	215	3	25
+gfx	216	6	25
+gfx	217	0	26
+gfx	218	1	26
+gfx	219	2	26
+gfx	220	5	10
+gfx	221	4	26
+gfx	222	5	26
+gfx	223	6	26
+gfx	224	3	7
+gfx	225	0	27
+gfx	226	1	27
+gfx	227	4	7
+gfx	228	2	27
+gfx	229	3	27
+gfx	230	4	27
+gfx	231	5	27
+gfx	232	6	27
+gfx	233	0	28
+gfx	234	1	28
+gfx	235	2	28
+gfx	236	3	2
+gfx	237	3	28
+gfx	238	4	28
+gfx	239	5	28
+gfx	240	6	28
+gfx	241	2	18
+gfx	242	0	29
+gfx	243	0	13
+gfx	244	2	29
+gfx	245	2	19
+gfx	246	3	29
+gfx	247	4	29
+gfx	248	5	29
+gfx	249	6	29
+gfx	250	5	30
+gfx	251	6	30
+gfx	252	4	30
+gfx	253	3	30
+gfx	254	2	30
+gfx	255	1	30
+obj	Poison	44
+obj	Blindness	44
+obj	Paranoia	44
+obj	Confusion	44
+obj	Hallucination	44
+obj	Cure Poison	44
+obj	Cure Blindness	44
+obj	Cure Paranoia	44
+obj	Cure Confusion	44
+obj	Weakness	44
+obj	Unhealth	44
+obj	Restore Constitution	44
+obj	First-Aid	44
+obj	Minor Cures	44
+obj	Light Cures	44
+obj	Restoring	44
+obj	Poison	44
+obj	Hallucinations	44
+obj	Cure Poison	44
+obj	Unhealth	44
+obj	Cure Serious Wounds	44
+obj	& Ration~ of Food	44
+obj	& Ration~ of Food	44
+obj	& Ration~ of Food	44
+obj	& Slime Mold~	245
+obj	& Piece~ of Elvish Waybread	180
+obj	& Piece~ of Elvish Waybread	180
+obj	& Piece~ of Elvish Waybread	180
+obj	& Dagger (Main Gauche)	196
+obj	& Dagger (Misericorde)	196
+obj	& Dagger (Stiletto)	196
+obj	& Dagger (Bodkin)	196
+obj	& Broken dagger	196
+obj	& Backsword	197
+obj	& Bastard Sword	197
+obj	& Thrusting Sword (Bilbo)	198
+obj	& Thrusting Sword (Baselard)	198
+obj	& Broadsword	198
+obj	& Two-Handed Sword (Claymore)	199
+obj	& Cutlass	199
+obj	& Two-Handed Sword (Espadon)	199
+obj	& Executioner's Sword	199
+obj	& Two-Handed Sword (Flamberge)	199
+obj	& Foil	199
+obj	& Katana	199
+obj	& Longsword	199
+obj	& Two-Handed Sword (No-Dachi)	199
+obj	& Rapier	199
+obj	& Sabre	199
+obj	& Small Sword	197
+obj	& Two-Handed Sword (Zweihander)	199
+obj	& Broken sword	198
+obj	& Ball and Chain	203
+obj	& Cat-O-Nine Tails	204
+obj	& Wooden Club	202
+obj	& Flail	194
+obj	& Two-Handed Great Flail	194
+obj	& Morningstar	205
+obj	& Mace	201
+obj	& War Hammer	200
+obj	& Mace (Lead-filled)	201
+obj	& Awl-Pike	192
+obj	& Beaked Axe	193
+obj	& Fauchard	193
+obj	& Glaive	193
+obj	& Halberd	192
+obj	& Lucerne Hammer	192
+obj	& Pike	192
+obj	& Spear	195
+obj	& Lance	195
+obj	& Javelin	195
+obj	& Battle Axe (Balestarius)	193
+obj	& Battle Axe (European)	193
+obj	& Broad Axe	193
+obj	& Short Bow	184
+obj	& Long Bow	185
+obj	& Composite Bow	185
+obj	& Light Crossbow	186
+obj	& Heavy Crossbow	187
+obj	& Sling	188
+obj	& Arrow~	189
+obj	& Bolt~	190
+obj	& Rounded Pebble~	191
+obj	& Iron Shot~	191
+obj	& Iron Spike~	208
+obj	& Brass Lantern~	211
+obj	& Wooden Torch~	126
+obj	& Orcish Pick	206
+obj	& Dwarven Pick	209
+obj	& Gnomish Shovel	207
+obj	& Dwarven Shovel	210
+obj	& Pair of Soft Leather Shoes	157
+obj	& Pair of Soft Leather Boots	158
+obj	& Pair of Hard Leather Boots	158
+obj	& Soft Leather Cap	159
+obj	& Hard Leather Cap	159
+obj	& Metal Cap	160
+obj	& Iron Helm	160
+obj	& Steel Helm	160
+obj	& Silver Crown	161
+obj	& Golden Crown	161
+obj	& Jewel-Encrusted Crown	161
+obj	& Robe	168
+obj	Soft Leather Armor	169
+obj	Soft Studded Leather	169
+obj	Hard Leather Armor	169
+obj	Hard Studded Leather	169
+obj	Woven Cord Armor	178
+obj	Soft Leather Ring Mail	170
+obj	Hard Leather Ring Mail	170
+obj	Leather Scale Mail	178
+obj	Metal Scale Mail	171
+obj	Chain Mail	171
+obj	Rusty Chain Mail	170
+obj	Double Chain Mail	171
+obj	Augmented Chain Mail	171
+obj	Bar Chain Mail	171
+obj	Metal Brigandine Armor	171
+obj	Laminated Armor	171
+obj	Partial Plate Armor	171
+obj	Metal Lamellar Armor	171
+obj	Full Plate Armor	171
+obj	Ribbed Plate Armor	171
+obj	& Cloak	168
+obj	& Set of Leather Gloves	162
+obj	& Set of Gauntlets	163
+obj	& Small Leather Shield	172
+obj	& Medium Leather Shield	173
+obj	& Large Leather Shield	176
+obj	& Small Metal Shield	174
+obj	& Medium Metal Shield	175
+obj	& Large Metal Shield	177
+obj	Gain Strength	61
+obj	Gain Dexterity	61
+obj	Gain Constitution	61
+obj	Gain Intelligence	61
+obj	Speed	61
+obj	Searching	61
+obj	Teleportation	61
+obj	Slow Digestion	61
+obj	Resist Fire	61
+obj	Resist Cold	61
+obj	Feather Falling	61
+obj	Adornment	61
+obj	& Arrow~	189
+obj	Weakness	61
+obj	Lordly Protection (FIRE)	61
+obj	Lordly Protection (ACID)	61
+obj	Lordly Protection (COLD)	61
+obj	WOE	61
+obj	Stupidity	61
+obj	Increase Damage	61
+obj	Increase To-Hit	61
+obj	Protection	61
+obj	Aggravate Monster	61
+obj	See Invisible	61
+obj	Sustain Strength	61
+obj	Sustain Intelligence	61
+obj	Sustain Wisdom	61
+obj	Sustain Constitution	61
+obj	Sustain Dexterity	61
+obj	Sustain Charisma	61
+obj	Slaying	61
+obj	Wisdom	34
+obj	Charisma	34
+obj	Searching	34
+obj	Teleportation	34
+obj	Slow Digestion	34
+obj	Resist Acid	34
+obj	Adornment	34
+obj	& Bolt~	190
+obj	the Magi	34
+obj	DOOM	34
+obj	Enchant Weapon To-Hit	63
+obj	Enchant Weapon To-Dam	63
+obj	Enchant Armor	63
+obj	Identify	63
+obj	Identify	63
+obj	Identify	63
+obj	Identify	63
+obj	Remove Curse	63
+obj	Light	63
+obj	Light	63
+obj	Light	63
+obj	Summon Monster	63
+obj	Phase Door	63
+obj	Teleport	63
+obj	Teleport Level	63
+obj	Monster Confusion	63
+obj	Magic Mapping	63
+obj	Sleep Monster	63
+obj	Rune of Protection	63
+obj	Treasure Detection	63
+obj	Object Detection	63
+obj	Trap Detection	63
+obj	Trap Detection	63
+obj	Trap Detection	63
+obj	Door/Stair Location	63
+obj	Door/Stair Location	63
+obj	Door/Stair Location	63
+obj	Mass Genocide	63
+obj	Detect Invisible	63
+obj	Aggravate Monster	63
+obj	Trap Creation	63
+obj	Trap/Door Destruction	63
+obj	Door Creation	63
+obj	Recharging	63
+obj	Genocide	63
+obj	Darkness	63
+obj	Protection from Evil	63
+obj	Create Food	63
+obj	Dispel Undead	63
+obj	*Enchant Weapon*	63
+obj	Curse Weapon	63
+obj	*Enchant Armor*	63
+obj	Curse Armor	63
+obj	Summon Undead	63
+obj	Blessing	63
+obj	Holy Chant	63
+obj	Holy Prayer	63
+obj	Word-of-Recall	63
+obj	*Destruction*	63
+obj	Slime Mold Juice	33
+obj	Apple Juice	33
+obj	Water	33
+obj	Gain Strength	33
+obj	Weakness	33
+obj	Restore Strength	33
+obj	Gain Intelligence	33
+obj	Lose Intelligence	33
+obj	Restore Intelligence	33
+obj	Gain Wisdom	33
+obj	Lose Wisdom	33
+obj	Restore Wisdom	33
+obj	Charisma	33
+obj	Ugliness	33
+obj	Restore Charisma	33
+obj	Cure Light Wounds	33
+obj	Cure Light Wounds	33
+obj	Cure Light Wounds	33
+obj	Cure Serious Wounds	33
+obj	Cure Critical Wounds	33
+obj	Healing	33
+obj	Gain Constitution	33
+obj	Gain Experience	33
+obj	Sleep	33
+obj	Blindness	33
+obj	Confusion	33
+obj	Poison	33
+obj	Haste Self	33
+obj	Slowness	33
+obj	Gain Dexterity	33
+obj	Restore Dexterity	33
+obj	Restore Constitution	33
+obj	Lose Experience	33
+obj	Salt Water	33
+obj	Invulnerability	33
+obj	Heroism	33
+obj	Super Heroism	33
+obj	Boldness	33
+obj	Restore Life Levels	33
+obj	Resist Heat	33
+obj	Resist Cold	33
+obj	Detect Invisible	33
+obj	Slow Poison	33
+obj	Neutralize Poison	33
+obj	Restore Mana	33
+obj	Infra-Vision	33
+obj	& Flask~ of oil	33
+obj	Light	45
+obj	Lightning Bolts	45
+obj	Frost Bolts	45
+obj	Fire Bolts	45
+obj	Stone-to-Mud	45
+obj	Polymorph	45
+obj	Heal Monster	45
+obj	Haste Monster	45
+obj	Slow Monster	45
+obj	Confuse Monster	45
+obj	Sleep Monster	45
+obj	Drain Life	45
+obj	Trap/Door Destruction	45
+obj	Magic Missile	45
+obj	Wall Building	45
+obj	Clone Monster	45
+obj	Teleport Away	45
+obj	Disarming	45
+obj	Lightning Balls	45
+obj	Cold Balls	45
+obj	Fire Balls	45
+obj	Stinking Cloud	45
+obj	Acid Balls	45
+obj	Wonder	45
+obj	Light	95
+obj	Door/Stair Location	95
+obj	Trap Location	95
+obj	Treasure Location	95
+obj	Object Location	95
+obj	Teleportation	95
+obj	Earthquakes	95
+obj	Summoning	95
+obj	Summoning	95
+obj	*Destruction*	95
+obj	Starlight	95
+obj	Haste Monsters	95
+obj	Slow Monsters	95
+obj	Sleep Monsters	95
+obj	Cure Light Wounds	95
+obj	Detect Invisible	95
+obj	Speed	95
+obj	Slowness	95
+obj	Mass Polymorph	95
+obj	Remove Curse	95
+obj	Detect Evil	95
+obj	Curing	95
+obj	Dispel Evil	95
+obj	Darkness	95
+obj	Darkness	95
+obj	[Beginners-Magik]	221
+obj	[Magik I]	221
+obj	[Magik II]	221
+obj	[The Mages Guide to Power]	221
+obj	[Beginners Handbook]	221
+obj	[Words of Wisdom]	221
+obj	[Chants and Blessings]	221
+obj	[Exorcism and Dispelling]	221
+obj	& Small wooden chest	164
+obj	& Large wooden chest	165
+obj	& Small iron chest	166
+obj	& Large iron chest	167
+obj	& Small steel chest	166
+obj	& Large steel chest	167
+obj	& Rat Skeleton	220
+obj	& Giant Centipede Skeleton	220
+obj	some filthy rags	212
+obj	& empty bottle	33
+obj	some shards of pottery	213
+obj	& Human Skeleton	220
+obj	& Dwarf Skeleton	220
+obj	& Elf Skeleton	220
+obj	& Gnome Skeleton	220
+obj	& broken set of teeth	242
+obj	& large broken bone	244
+obj	& broken stick	214
+obj	& Ration~ of Food	44
+obj	& Hard Biscuit~	179
+obj	& Strip~ of Beef Jerky	179
+obj	& Pint~ of Fine Ale	183
+obj	& Pint~ of Fine Wine	183
+obj	& Pick	206
+obj	& Shovel	207
+obj	Identify	63
+obj	Light	63
+obj	Phase Door	63
+obj	Magic Mapping	63
+obj	Treasure Detection	63
+obj	Object Detection	63
+obj	Detect Invisible	63
+obj	Blessing	63
+obj	Word-of-Recall	63
+obj	Cure Light Wounds	33
+obj	Heroism	33
+obj	Boldness	33
+obj	Slow Poison	33
+obj	& Brass Lantern~	211
+obj	& Wooden Torch~	126
+obj	& Flask~ of oil	33
+obj	& open door	39
+obj	& closed door	43
+obj	& secret door	35
+obj	an up staircase 	60
+obj	a down staircase	62
+obj	General Store	49
+obj	Armory	50
+obj	Weapon Smiths	51
+obj	Temple	52
+obj	Alchemy Shop	53
+obj	Magic Shop	54
+obj	an open pit	215
+obj	an arrow trap	94
+obj	a covered pit	94
+obj	a trap door	94
+obj	a gas trap	94
+obj	a loose rock	59
+obj	a dart trap	94
+obj	a strange rune	94
+obj	some loose rock	94
+obj	a gas trap	94
+obj	a strange rune	94
+obj	a blackened spot	94
+obj	some corroded rock	94
+obj	a gas trap	94
+obj	a gas trap	94
+obj	a gas trap	94
+obj	a dart trap	94
+obj	a dart trap	94
+obj	some rubble	58
+obj	& pint~ of fine grade mush	181
+obj	a strange rune	94
+obj	copper	36
+obj	copper	36
+obj	copper	36
+obj	silver	36
+obj	silver	36
+obj	silver	36
+obj	garnets	42
+obj	garnets	42
+obj	gold	36
+obj	gold	36
+obj	gold	36
+obj	opals	42
+obj	sapphires	42
+obj	gold	36
+obj	rubies	42
+obj	diamonds	42
+obj	emeralds	42
+obj	mithril	36
+obj	nothing	32
+obj	& ruined chest	164
+obj		32
