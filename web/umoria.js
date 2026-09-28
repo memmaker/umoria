@@ -167,6 +167,7 @@
 				}
 				if (typeof s.face === 'string') d.face = s.face;
 				if (typeof s.mapFace === 'string') d.mapFace = s.mapFace;
+				if (typeof s.tiles === 'string') d.tiles = s.tiles;  /* the tile set, by name */
 				if (s.audio) d.audio = { sound: s.audio.sound === true, music: s.audio.music === true };
 			}
 		} catch (err) { /* nothing saved yet */ }
@@ -256,8 +257,8 @@
 	function reshape(p) { shape(p); applyDom(); }
 
 	function resetLayout() {
-		var a = L.audio, fc = L.face, mf = L.mapFace;
-		L = defaultLayout(); L.audio = a; L.face = fc; L.mapFace = mf; L.wm = wm.state();
+		var a = L.audio, fc = L.face, mf = L.mapFace, ts = L.tiles;
+		L = defaultLayout(); L.audio = a; L.face = fc; L.mapFace = mf; L.tiles = ts; L.wm = wm.state();
 		for (var p = 0; p < panes.length; p++) if (panes[p]) shape(p);
 		applyDom(); saveLayout();
 	}
@@ -396,7 +397,7 @@
 		um: um,
 		preRun: [function () {
 			var FS = Module.FS;
-			if (!tilesDone) { Module.addRunDependency('tiles'); tilesWait = true; }
+			Module.addRunDependency('tiles'); tilesWait = true;   /* the sheet loads once the layout says which */
 			FS.mkdirTree(DIR);
 			FS.mount(Module.IDBFS, {}, DIR);
 			FS.chdir('/umoria');                 /* the game reads data/ relative to here */
@@ -407,6 +408,9 @@
 				try { FS.stat(DIR + '/scores.dat'); } catch (e) { FS.writeFile(DIR + '/scores.dat', FS.readFile('/umoria/data/scores.dat')); }
 				try { FS.unlink('/umoria/scores.dat'); } catch (e) { }
 				FS.symlink(DIR + '/scores.dat', '/umoria/scores.dat');
+				loadLayout();                    /* before the game: it holds the tile set */
+				TILESETS.forEach(function (t, i) { if (t[1] === L.tiles) tileset = i; });
+				startTiles();
 				Module.removeRunDependency('idbfs');
 			});
 		}],
@@ -458,17 +462,10 @@
 		for (var i = 0; i < T.cols * T.rows; i++) if (anim[T.t[i]] || anim[T.u[i]]) draw(P_MAP, (i / T.cols) | 0, i % T.cols);
 		drawCursor();
 	}, 500);
-	/* stored by name; older pages stored an index into [Shockbolt, None] (2 and 3 only
-	   from the first DawnLike list), so a saved None no longer turns into DawnLike */
-	try {
-		var saved = localStorage.getItem('tileset');
-		saved = { '0': 'Shockbolt', '1': 'None', '2': 'DawnLike|a', '3': 'None' }[saved] || saved;
-		TILESETS.forEach(function (t, i) { if (t[1] === saved) tileset = i; });
-	} catch (err) { /* no storage */ }
 	function renderTileset() { var b = $('btn-tiles'); if (b) b.textContent = 'Tiles: ' + TILESETS[tileset][1]; }
 	function toggleTileset() {
 		tileset = (tileset + 1) % TILESETS.length;
-		try { localStorage.setItem('tileset', TILESETS[tileset][1]); } catch (err) { /* no storage */ }
+		L.tiles = TILESETS[tileset][1]; saveLayout();
 		renderTileset();
 		var redraw = function () {
 			[P_MAP, P_INV].forEach(function (p) { if (panes[p]) shape(p); });
@@ -511,8 +508,11 @@
 			tiles.naturalWidth * k + 'px ' + tiles.naturalHeight * k + 'px';
 		return s;
 	}
-	if (TILESETS[tileset][0]) tiles.src = TILESETS[tileset][0]; else tilesDone = true;
-	loadFrame1();
+	function startTiles() {
+		renderTileset(); loadFrame1();
+		if (TILESETS[tileset][0]) tiles.src = TILESETS[tileset][0];
+		else { tilesDone = true; if (tilesWait) Module.removeRunDependency('tiles'); }   /* None: text */
+	}
 
 	/* autosave: every 2 minutes and when the page is hidden */
 	setInterval(function () { saveReq = true; }, 120000);
