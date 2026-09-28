@@ -457,11 +457,17 @@
 		for (var i = 0; i < T.cols * T.rows; i++) if (anim[T.t[i]] || anim[T.u[i]]) draw(P_MAP, (i / T.cols) | 0, i % T.cols);
 		drawCursor();
 	}, 500);
-	try { tileset = +localStorage.getItem('tileset') % TILESETS.length || 0; } catch (err) { /* no storage */ }
+	/* stored by name; older pages stored an index into [Shockbolt, None] (2 and 3 only
+	   from the first DawnLike list), so a saved None no longer turns into DawnLike */
+	try {
+		var saved = localStorage.getItem('tileset');
+		saved = { '0': 'Shockbolt', '1': 'None', '2': 'DawnLike|a', '3': 'None' }[saved] || saved;
+		TILESETS.forEach(function (t, i) { if (t[1] === saved) tileset = i; });
+	} catch (err) { /* no storage */ }
 	function renderTileset() { var b = $('btn-tiles'); if (b) b.textContent = 'Tiles: ' + TILESETS[tileset][1]; }
 	function toggleTileset() {
 		tileset = (tileset + 1) % TILESETS.length;
-		try { localStorage.setItem('tileset', tileset); } catch (err) { /* no storage */ }
+		try { localStorage.setItem('tileset', TILESETS[tileset][1]); } catch (err) { /* no storage */ }
 		renderTileset();
 		var redraw = function () {
 			[P_MAP, P_INV].forEach(function (p) { if (panes[p]) shape(p); });
