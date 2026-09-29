@@ -189,6 +189,7 @@
 				if (typeof s.face === 'string') d.face = s.face;
 				if (typeof s.mapFace === 'string') d.mapFace = s.mapFace;
 				if (typeof s.tiles === 'string') d.tiles = s.tiles;  /* the tile set, by name */
+				else if (typeof s.tiles === 'number') d.tiles = ['Shockbolt', 'DawnLike', 'DawnLike|a', 'None'][s.tiles] || d.tiles;  /* an old index (order before Gervais) */
 				if (s.audio) d.audio = { sound: s.audio.sound === true, music: s.audio.music === true };
 			}
 		} catch (err) { /* nothing saved yet */ }
